@@ -1,0 +1,186 @@
+$border-radius-size: 10px;
+$barbarian: #EC9B3B;
+$archer: #EE5487;
+$giant: #F6901A;
+$goblin: #82BB30;
+$wizard: #4FACFF;
+
+
+.wrapper {
+
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height:170px;
+  }
+
+.clash-card {
+  background: white;
+  width: 200px;
+  display: inline-block;
+  font-family: "Roboto";
+  border-radius: $border-radius-size;
+
+  position: relative;
+  text-align: center;
+    box-shadow: 3px 20px 15px -12px black;
+  z-index: 999;
+}
+
+
+
+
+
+
+.clash-card__level {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 3px;
+  margin-top:2px;
+  color: $barbarian;
+}
+
+.clash-card__level--barbarian {
+  color: $barbarian;
+}
+
+.clash-card__level--archer {
+  color: $archer;
+}
+
+.clash-card__level--giant {
+  color: $giant;
+}
+
+.clash-card__level--goblin {
+  color: $goblin;
+}
+
+.clash-card__level--wizard {
+  color: $wizard;
+}
+
+.clash-card__unit-name {
+  text-transform: uppercase;
+  font-size: 16px;
+  color: black;
+  font-weight: 400;
+  margin: 3px;
+}
+
+.clash-card__unit-description {
+  padding: 3px;
+  margin-bottom: 2px;  
+  height:48px;
+  font-size: 0.8em;
+  text-align:center;
+}
+
+.clash-card__unit-stats--barbarian {
+  background: $barbarian;
+  
+  .one-third {
+     border-right: 1px solid #BD7C2F;
+  }
+}
+
+.clash-card__unit-stats--archer {
+  background: $archer;
+  
+  .one-third {
+     border-right: 1px solid #D04976;
+  }
+}
+
+.clash-card__unit-stats--giant {
+  background: $giant;
+  
+  .one-third {
+     border-right: 1px solid darken($giant, 8%);
+  }
+}
+
+.clash-card__unit-stats--goblin {
+  background: $goblin;
+  
+  .one-third {
+     border-right: 1px solid darken($goblin, 6%);
+  }
+}
+
+.clash-card__unit-stats--wizard {
+  background: $wizard;
+  
+  .one-third {
+     border-right: 1px solid darken($wizard, 6%);
+  }
+}
+
+.clash-card__unit-stats {
+  
+  color: white;
+  height:40px;
+  font-weight: 100;
+  border-bottom-left-radius: $border-radius-size;
+  border-bottom-right-radius: $border-radius-size;
+  
+  .one-third {
+    width: 50%;
+    float: left;
+    padding: 0px;
+    border-right: 1px solid #BD7C2F;
+  }
+  
+  sup {
+    position: absolute;
+    bottom: 4px; 
+    font-size: 45%;
+    margin-left: 2px;
+  }
+  
+  .stat {
+    position: relative;
+    font-size: 16px;
+    margin-top: 3px;
+  }
+  
+  .stat-value {
+    text-transform: lowercase;
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  .no-border {
+    border-right: none;
+  }
+}
+
+
+
+.over:after {
+		box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
+}
+
+
+i.over:after {
+		border-color: #cd8484;
+}
+
+
+.over {
+  color: #cd8484;
+		background-color: transparent;
+		transform: scale(1) rotate(0deg) !important;
+		cursor: pointer;
+		box-shadow: none;
+}
+
+.disabled{
+  opacity:0.5;
+  background-color: #cbcbcb ;
+  
+}
+
+
+.p-col-10,.p-col-1{
+  padding:0.1em !important;
+}
