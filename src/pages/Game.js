@@ -506,29 +506,24 @@ export class Game extends Component {
                 </Dialog>*/
         return (
             
-            <IonGrid>
-                <IonRow>
-                    <IonCol><Score countdown={this.state.countdown} longest={this.state.longest} highestScore={this.state.highestScore} score={this.state.score} percentage={this.state.clearedLetterCount} width={this.state.size * 10 - 10 + "px"}/></IonCol>
-                </IonRow>
-                <IonRow>
-                 <IonCol><div className="rack" style={{width:this.state.size * 10}}>{this.state.currentWord}</div> </IonCol>
-                 </IonRow>
-                 <IonRow>
-                 <IonCol>
-                    <div id="box-table-b" style={{width:this.state.size * 10,height : this.state.size * 10,textAlign:"center !important"}} >
+                <div style={{width:"100%",textAlign:"center"}}>
+                <div><Score countdown={this.state.countdown} longest={this.state.longest} highestScore={this.state.highestScore} score={this.state.score} percentage={this.state.clearedLetterCount} width={this.state.size * 10 - 10 + "px"}/></div>
+                <div>
+                <div className="rack" style={{display:"inline-block",width:this.state.size * 10}}><div>&nbsp;{this.state.currentWord}</div></div>
+                </div>
+                <div>
+                    <div id="box-table-b" style={{display:"inline-block",width:this.state.size * 10,height : this.state.size * 10,textAlign:"center !important"}} >
                     {rotateBtn}
                         {cells}   
                         {outs}                     
 
                     </div>
-                </IonCol>
-                </IonRow>
-                <IonRow>
-                <IonCol>
+                </div>
+                <div>
                     <Cards list={this.state.wordList} width={(this.state.size * 10 - 10) + "px"}/>
-                </IonCol>
-                </IonRow>
-            </IonGrid>
+                </div>
+                </div>
+
         )
     }
 

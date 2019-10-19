@@ -40,7 +40,7 @@ class Score extends React.Component {
       // Scale 100% coverage overlay with the actual percent
       const dashOffset = dashArray - dashArray * this.props.percentage / 100;
       return(
-<figure className="scorecard scorecard--normal scorecard--hover" style={{width:this.props.width ? this.props.width : "200px"}}>
+<figure className="scorecard scorecard--normal" style={{width:this.props.width ? this.props.width : "200px"}}>
   <figcaption className="scorecard__caption">
     <div className="scorecard__name">{this.renderCountdown()}</div>
     <table className="scorecard__stats">
@@ -56,13 +56,11 @@ class Score extends React.Component {
     
     <div className="scorecard__abilities">
       <div className="scorecard__ability">
-        <span className="scorecard__label">En uzun sözcük</span>
-        <span className="scorecard__label">({this.props.longest.score} puan)</span>
+        <span className="scorecard__label">En uzun sözcük ({this.props.longest.score} puan)</span>
         <span style={{textTransform:"uppercase"}}>{this.props.longest.w}</span>
       </div>
       <div className="scorecard__ability">
-        <span className="scorecard__label">En yüksek puan</span>
-        <span className="scorecard__label">({this.props.highestScore.score} puan)</span>
+        <span className="scorecard__label">En yüksek puan ({this.props.highestScore.score} puan)</span>
         <span style={{textTransform:"uppercase"}}>{this.props.highestScore.w}</span>
       </div>
     </div>   

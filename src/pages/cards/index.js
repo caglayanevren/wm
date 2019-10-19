@@ -38,13 +38,13 @@ export class Cards extends Component {
         infinite: true,
         speed: 400,
         slidesToShow: 1,
-        arrows : true,
+        arrows : false,
         focusOnSelect : false
       };
       var cards = [];
        for (const [i, card] of this.state.list.entries()) {
       cards.push(
-        <div key={i}>
+        <div key={i} style={{width:"100%"}}>
         <figure className="scorecard scorecard--water scorecard--hover" style={{width:this.props.width}}>
         <figcaption className="scorecard__caption">
           <div className="scorecard__name">{card.word} <span style={{position:"absolute",color:"gray",fontSize:"0.6em",right:"5px"}}>{card.score === 0 ? "" : (i + 1) + "/" + this.state.list.length}</span></div>
