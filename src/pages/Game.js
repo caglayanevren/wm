@@ -10,9 +10,10 @@ import Block from './Block';
 import Score from './score'
 import RotateBtn from './rotatebtn'
 import Cards from './cards'
-import { IonPopover, IonButton,IonContent,IonCard } from '@ionic/react';
-import {Dialog} from 'primereact/dialog';
-import {Button} from 'primereact/button';
+import {analytics} from 'ionicons/icons'
+import { IonPopover, IonButton,IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonItem, IonLabel } from '@ionic/react';
+//import {Dialog} from 'primereact/dialog';
+//import {Button} from 'primereact/button';
 
 
 export class Game extends Component {
@@ -50,10 +51,10 @@ export class Game extends Component {
             wordList : this.wordList,
             currentWord:"",
             outList : [],
-            showModal : false,
+            showNetworkError : false,
             highestScore : {w:".",score:0},
             longest : {w:".",score:0},
-            countdown : 300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
+            countdown : 10//300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
         };
         this.onTouchStart = this.onTouchStart.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -74,6 +75,8 @@ export class Game extends Component {
             
             if (this.state.countdown === 0){
                 this.status = 1;
+                this.setState({showEndGame : true})
+
                 clearInterval(this.clock);
                 return;
             }
@@ -343,7 +346,7 @@ export class Game extends Component {
                 }).catch(e => {
                     this.status = 0;
                     console.log("ERRORRR  -->" + e);
-                    this.setState({showModal:true,currentWord:"",dlgMsg:"Sunucu erişimi sağlanamıyor, Internet bağlantınızı kontrol ediniz"});
+                    this.setState({showNetworkError:true,currentWord:""});
                     this.touchList = [];
                     
                                       
@@ -465,11 +468,18 @@ export class Game extends Component {
         }
         
     }
+    pad(num){
+      if (num < 10){
+        return "0" + num;
+      }
+      return num;
+    }
 
     render() {
        
         const cells = [];
         const outs = [];
+
         let rotateBtn = null;
         const myIcon = (
             <button className="p-dialog-titlebar-icon p-link">
@@ -504,16 +514,39 @@ export class Game extends Component {
             }
 
         }
-                       /*<Dialog header="Bağlantı Hatası" footer={<div style={{textAlign:"center"}}><Button label="Tamam" icon="pi pi-check" onClick={this.connErrDlgHide}/></div>} onHide={this.connErrDlgHide} visible={this.state.connErr} style={{width: '50vw'}} modal={true}>
-                    Sunucu erişimi sağlanamıyor...
-                </Dialog>*/
+
         return (
                 <IonContent scrollY={false}>
+
                     <IonPopover
-                        isOpen={this.state.showModal}
-                        onDidDismiss={e => this.setState({showModal:false})}>
-                        <p style={{textAlign:"center",fontFamily:"Roboto"}}>{this.state.dlgMsg}</p>
-                        <div style={{textAlign:"center",width:"100%"}}><IonButton color="danger" onTouchStart={e=>this.setState({showModal:false})}>Tamam</IonButton></div>
+                        isOpen={this.state.showEndGame}
+                        onDidDismiss={e => this.setState({showEndGame:false})}>
+
+                                <IonItem>
+                                    <IonIcon icon={analytics} slot="start" />
+                                    <IonLabel>Oyun Sonu</IonLabel>
+                                    
+                                </IonItem>
+
+                                <IonCardContent>
+                                    <p> Kalan Süre       : {this.pad(Math.floor(this.state.countdown / 60))}:{this.pad(this.state.countdown % 60)}</p>
+                                        <p>Puan          : {this.state.score}</p>
+                                        <p>Toplanan Harf : {this.state.clearedLetterCount}</p>
+                                    <div style={{textAlign:"center"}}><IonButton onTouchStart={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="secondary">Kapat</IonButton></div>                                        
+                                </IonCardContent>
+
+
+                                                                                
+
+                                
+                        </IonPopover>
+
+               
+                    <IonPopover
+                        isOpen={this.state.showNetworkError}
+                        onDidDismiss={e => this.setState({showNetworkError:false})}>
+                        <p style={{textAlign:"center",fontFamily:"Roboto"}}>Sunucu erişimi sağlanamıyor, Internet bağlantınızı kontrol ediniz</p>
+                        <div style={{textAlign:"center",width:"100%"}}><IonButton color="danger" onTouchStart={e=>this.setState({showNetworkError:false})}>Tamam</IonButton></div>
                     </IonPopover>
                 <div style={{width:"100%",textAlign:"center"}}>
                 
