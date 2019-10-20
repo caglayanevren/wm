@@ -35,14 +35,10 @@ i.material-icons:after {
 
 }
 
-.tapped:after {
-		box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
-}
 
 
-.tapped {
-		color: #cd8484;
-}
+
+
 
 i.material-icons:after {
 		border-color: #cd8484;
@@ -57,3 +53,6 @@ i.material-icons:after {
 }
 
 
+.tapped:after {
+		box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
+}

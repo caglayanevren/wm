@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component,} from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
 
 
@@ -9,10 +10,10 @@ import Block from './Block';
 import Score from './score'
 import RotateBtn from './rotatebtn'
 import Cards from './cards'
+import { IonPopover, IonButton,IonContent,IonCard } from '@ionic/react';
 import {Dialog} from 'primereact/dialog';
 import {Button} from 'primereact/button';
 
-import { IonGrid, IonRow, IonCol, IonContent } from '@ionic/react';
 
 export class Game extends Component {
 
@@ -49,7 +50,7 @@ export class Game extends Component {
             wordList : this.wordList,
             currentWord:"",
             outList : [],
-            connErr : false,
+            showModal : false,
             highestScore : {w:".",score:0},
             longest : {w:".",score:0},
             countdown : 300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
@@ -61,7 +62,7 @@ export class Game extends Component {
         this.onAnimationEnd = this.onAnimationEnd.bind(this);
         this.onOutAnimationEnd = this.onOutAnimationEnd.bind(this);
         this.rotate = this.rotate.bind(this);
-        this.connErrDlgHide = this.connErrDlgHide.bind(this);
+
         for (var i = 0; i < Config.alphabet.length; ++i){
 	    	
 	    	var count = Config.counts[i];	    	
@@ -342,7 +343,7 @@ export class Game extends Component {
                 }).catch(e => {
                     this.status = 0;
                     console.log("ERRORRR  -->" + e);
-                    this.setState({connErr:true,currentWord:""});
+                    this.setState({showModal:true,currentWord:"",dlgMsg:"Sunucu erişimi sağlanamıyor, Internet bağlantınızı kontrol ediniz"});
                     this.touchList = [];
                     
                                       
@@ -391,6 +392,7 @@ export class Game extends Component {
 
     onMouseMove(e,l,c){
         this.resize();
+        console.log(" line : " + l + "  col : " + c);
         if (this.status !== 0){
            
             return;
@@ -465,6 +467,7 @@ export class Game extends Component {
     }
 
     render() {
+       
         const cells = [];
         const outs = [];
         let rotateBtn = null;
@@ -505,9 +508,16 @@ export class Game extends Component {
                     Sunucu erişimi sağlanamıyor...
                 </Dialog>*/
         return (
-            
+                <IonContent scrollY={false}>
+                    <IonPopover
+                        isOpen={this.state.showModal}
+                        onDidDismiss={e => this.setState({showModal:false})}>
+                        <p style={{textAlign:"center",fontFamily:"Roboto"}}>{this.state.dlgMsg}</p>
+                        <div style={{textAlign:"center",width:"100%"}}><IonButton color="danger" onTouchStart={e=>this.setState({showModal:false})}>Tamam</IonButton></div>
+                    </IonPopover>
                 <div style={{width:"100%",textAlign:"center"}}>
-                <div><Score countdown={this.state.countdown} longest={this.state.longest} highestScore={this.state.highestScore} score={this.state.score} percentage={this.state.clearedLetterCount} width={this.state.size * 10 - 10 + "px"}/></div>
+                
+                <div><Score countdown={this.state.countdown} longest={this.state.longest} highestScore={this.state.highestScore} score={this.state.score} percentage={this.state.clearedLetterCount} width={this.state.size * 10 + "px"}/></div>
                 <div>
                 <div className="rack" style={{display:"inline-block",width:this.state.size * 10}}><div>&nbsp;{this.state.currentWord}</div></div>
                 </div>
@@ -523,13 +533,10 @@ export class Game extends Component {
                     <Cards list={this.state.wordList} width={(this.state.size * 10 - 10) + "px"}/>
                 </div>
                 </div>
-
+                </IonContent>
         )
     }
 
-    connErrDlgHide() {
-        this.setState({connErr: false});
-    }
 
     animationRules = 0;
     animationCount = 0;

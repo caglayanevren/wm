@@ -21,7 +21,13 @@ class RotateBtn extends React.Component {
 
     render() {
       return (
-        <i style={this.props.style} className={this.state.className} onMouseUp={()=>this.touchend()} onMouseLeave={()=>this.touchend()} onMouseDown={()=>{this.touched();this.props.rotate()}}>rotate_90_degrees_ccw</i>
+        <i style={this.props.style} className={this.state.className} onMouseUp={()=>this.touchend()} 
+        onMouseLeave={()=>this.touchend()} 
+        onMouseDown={()=>{this.touched();this.props.rotate()}}
+        
+        onTouchEnd={()=>this.touchend()} 
+        onTouchStart={()=>{this.touched();this.props.rotate()}}
+        >rotate_90_degrees_ccw</i>
       );
     }
   }
