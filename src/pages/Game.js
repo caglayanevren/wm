@@ -13,7 +13,7 @@ import Cards from './cards'
 import {podium} from 'ionicons/icons'
 import {power} from 'ionicons/icons'
 import {arrowRoundBack} from 'ionicons/icons'
-import { IonPopover, IonTitle, IonButton,IonContent,  
+import { IonPopover, IonText, IonButton,IonContent,  
     IonCardContent,  IonIcon, IonItem, IonToolbar,IonButtons, IonLabel, IonHeader,IonAlert } from '@ionic/react';
 //import {Dialog} from 'primereact/dialog';
 //import {Button} from 'primereact/button';
@@ -565,15 +565,19 @@ export class Game extends Component {
 
                                 <IonItem>
                                     <IonIcon icon={podium} slot="start" />
-                                    <IonLabel>Oyun Sonu</IonLabel>
+                                    <span style={{fontWeight:500}}>Oyun Sonu</span>
                                     
                                 </IonItem>
 
                                 <IonCardContent>
-                                    <p> Kalan Süre       : {this.pad(Math.floor(this.state.countdown / 60))}:{this.pad(this.state.countdown % 60)}</p>
-                                        <p>Puan          : {this.state.score}</p>
-                                        <p>Toplanan Harf : {this.state.clearedLetterCount}</p>
-                                    <div style={{textAlign:"center"}}><IonButton onTouchStart={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="secondary">Kapat</IonButton></div>                                        
+                                    <table>
+                                    <tr> <td style={{color:"gray"}}>Kalan Süre</td> <td style={{fontWeight:490}}>&nbsp;: {this.pad(Math.floor(this.state.countdown / 60))}:{this.pad(this.state.countdown % 60)}</td></tr>
+                                    <tr> <td  style={{color:"gray"}}>Puan</td><td style={{fontWeight:490}}>&nbsp;: {this.state.score}</td> </tr>
+                                    <tr> <td  style={{color:"gray"}}>Toplanan Harf</td><td style={{fontWeight:490}}>&nbsp;: {this.state.clearedLetterCount}</td></tr>
+                                    </table>
+                                    <br/>
+                                    <div style={{textAlign:"center"}}><IonButton onTouchStart={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
+
                                 </IonCardContent>
 
 
