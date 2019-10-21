@@ -11,10 +11,11 @@ import Score from './score'
 import RotateBtn from './rotatebtn'
 import Cards from './cards'
 import {podium} from 'ionicons/icons'
+import {menu} from 'ionicons/icons'
 import {power} from 'ionicons/icons'
-import {arrowRoundBack} from 'ionicons/icons'
-import { IonPopover, IonText, IonButton,IonContent,  
-    IonCardContent,  IonIcon, IonItem, IonToolbar,IonButtons, IonLabel, IonHeader,IonAlert } from '@ionic/react';
+import {home} from 'ionicons/icons'
+import { IonPopover, IonText, IonButton,IonContent,  IonFab, IonFabButton,  IonFabList 
+    ,IonCardContent,  IonIcon, IonItem, IonToolbar,IonButtons, IonLabel, IonHeader,IonAlert } from '@ionic/react';
 //import {Dialog} from 'primereact/dialog';
 //import {Button} from 'primereact/button';
 
@@ -540,25 +541,20 @@ export class Game extends Component {
             }
           ]}
         />                    
-<IonHeader mode="ios" >
-      <IonToolbar slot="primary">
-        <IonButtons  slot="secondary">
-          <IonButton color="danger" >
-            <IonIcon slot="start" icon={arrowRoundBack}></IonIcon>
-            Ana Sayfa
-          </IonButton>
+ <IonFab size="small" horizontal="start" vertical="bottom"  slot="fixed">
+        <IonFabButton color="dark">
+          <IonIcon icon={menu}></IonIcon>
+        </IonFabButton>
+        <IonFabList side="end">
+          <IonFabButton color="primary">
+            <IonIcon icon={home}></IonIcon>
+          </IonFabButton>
+          {(this.status < 2 ?  <IonFabButton color="danger" onClick={()=>this.setState({showAlert1:true})}>
+            <IonIcon icon={power}></IonIcon>
+          </IonFabButton> : "")}
+        </IonFabList> 
+      </IonFab>
     
-        </IonButtons>
-        <IonButtons  slot="primary">
-
-         {this.status < 2 ? <IonButton disabled={this.status > 0} color="danger" onClick={()=>this.setState({showAlert1:true})}>
-            <IonIcon slot="start"  icon={power}></IonIcon>           
-             Bitir
-          </IonButton>   : ""}       
-        </IonButtons>
-
-      </IonToolbar>
-    </IonHeader>
                     <IonPopover
                         isOpen={this.state.showEndGame}
                         onDidDismiss={e => this.setState({showEndGame:false})}>
@@ -569,16 +565,16 @@ export class Game extends Component {
                                     
                                 </IonItem>
 
-                                <IonCardContent>
-                                    <table>
-                                    <tr> <td style={{color:"gray"}}>Kalan Süre</td> <td style={{fontWeight:490}}>&nbsp;: {this.pad(Math.floor(this.state.countdown / 60))}:{this.pad(this.state.countdown % 60)}</td></tr>
-                                    <tr> <td  style={{color:"gray"}}>Puan</td><td style={{fontWeight:490}}>&nbsp;: {this.state.score}</td> </tr>
-                                    <tr> <td  style={{color:"gray"}}>Toplanan Harf</td><td style={{fontWeight:490}}>&nbsp;: {this.state.clearedLetterCount}</td></tr>
-                                    </table>
+                                
+                                    <div style={{width:"100%",padding:"10px"}}>
+                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Kalan Süre</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.pad(Math.floor(this.state.countdown / 60))}:{this.pad(this.state.countdown % 60)}</div><br/>
+                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Puan</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.score}</div><br/>
+                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Toplanan Harf</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.clearedLetterCount}</div>
+                                    </div>
                                     <br/>
                                     <div style={{textAlign:"center"}}><IonButton onTouchStart={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
 
-                                </IonCardContent>
+                                
 
 
                                                                                 
@@ -608,7 +604,7 @@ export class Game extends Component {
                     </div>
                 </div>
                 <div>
-                    <Cards list={this.state.wordList} width={(this.state.size * 10 - 10) + "px"}/>
+                    <Cards list={this.state.wordList} width={(this.state.size * 10 - 3) + "px"}/>
                 </div>
                 </div>
                 </IonContent>

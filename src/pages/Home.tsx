@@ -1,4 +1,4 @@
-import { IonContent} from '@ionic/react';
+import { IonApp} from '@ionic/react';
 import React from 'react';
 import Game from './Game';
 
@@ -29,8 +29,9 @@ class Home extends React.Component<any,any> {
 
   return (
 
-  
+   <IonApp>
     <Game/>
+    </IonApp>
 
  );
   }

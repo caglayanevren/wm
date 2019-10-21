@@ -60,8 +60,8 @@ h1, h2, h3, h4, h5 {
   &__name {
 
     text-align: center;
-    font-size: 1.3em;    
-    font-weight: 600;
+    font-size: 1.1em;    
+    font-weight: 550;
     letter-spacing: 0.03em;
     text-transform: uppercase;
   }
@@ -182,8 +182,8 @@ h1, h2, h3, h4, h5 {
   }
   
 }
-.slick-current{
-  
+.slick-list{
+  overflow: unset !important;
 }
 
 .slick-prev{
