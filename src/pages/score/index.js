@@ -52,25 +52,28 @@ class Score extends React.Component {
     <div className="scorecard__name">{this.renderCountdown()}
     </div>
     <table className="scorecard__stats">
-      <tbody><tr>
-        <th style={{fontWeight:500,color:"gray",fontSize:"1em",textAlign:"right"}}>Puan :</th>
-        <td style={{fontWeight:500,fontSize:"1em"}}>{this.props.score}</td>
+      <tbody>
+        <tr>
+        <td style={{width:"25%",fontWeight:500,color:"gray",fontSize:"1em",textAlign:"right"}}>Puan :</td>
+        <td style={{width:"25%",fontWeight:500,fontSize:"1em"}}>{this.props.score}</td>
+    <td style={{width:"25%",fontWeight:500,color:"gray",fontSize:"1em",textAlign:"right"}}>Yüzde :</td>
+      <td style={{fontWeight:500,fontSize:"1em"}}>{this.props.percentage}%</td>
+
         </tr>
       <tr>
-      <th style={{fontWeight:500,color:"gray",fontSize:"1em",textAlign:"right"}}>Yüzde :</th>
-      <td style={{fontWeight:500,fontSize:"1em"}}>{this.props.percentage}%</td>
-      </tr>
+        </tr>
         </tbody></table>
     
     <div className="scorecard__abilities">
-      <div className="scorecard__ability">
-        <span className="scorecard__label">En uzun sözcük ({this.props.longest.score} puan)</span>
-        <span style={{textTransform:"uppercase"}}>{this.props.longest.w}</span>
-      </div>
-      <div className="scorecard__ability">
+       <div className="scorecard__ability">
         <span className="scorecard__label">En yüksek puan ({this.props.highestScore.score} puan)</span>
         <span style={{textTransform:"uppercase"}}>{this.props.highestScore.w}</span>
       </div>
+     <div className="scorecard__ability">
+        <span className="scorecard__label">En uzun sözcük ({this.props.longest.score} puan)</span>
+        <span style={{textTransform:"uppercase"}}>{this.props.longest.w}</span>
+      </div>
+
     </div>   
   </figcaption>
 </figure>        

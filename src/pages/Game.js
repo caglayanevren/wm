@@ -10,7 +10,7 @@ import Block from './Block';
 import Score from './score'
 import RotateBtn from './rotatebtn'
 import Cards from './cards'
-import {analytics} from 'ionicons/icons'
+import {podium} from 'ionicons/icons'
 import {power} from 'ionicons/icons'
 import {home} from 'ionicons/icons'
 import { IonPopover, IonTitle, IonButton,IonContent,  
@@ -77,7 +77,7 @@ export class Game extends Component {
         this.clock = setInterval(()=>{
             
             if (this.state.countdown === 0 || this.status === 2){
-                this.status = 1;
+                this.status = 2;
                 this.setState({showEndGame : true})
 
                 clearInterval(this.clock);
@@ -542,15 +542,15 @@ export class Game extends Component {
 <IonHeader mode="ios" >
       <IonToolbar slot="primary">
         <IonButtons  slot="secondary">
-          <IonButton color="medium" >
+          <IonButton color="secondary" >
             <IonIcon slot="icon-only" icon={home}></IonIcon>
           </IonButton>
-         {this.status === 0 ? <IonButton disabled={this.status > 0} color="danger" onClick={()=>this.setState({showAlert1:true})}>
+         {this.status < 2 ? <IonButton disabled={this.status > 0} color="secondary" onClick={()=>this.setState({showAlert1:true})}>
             <IonIcon slot="icon-only" icon={power}></IonIcon>
           </IonButton>   : ""}       
         </IonButtons>
 
-        <IonTitle>Header</IonTitle>
+
 
         <IonButtons slot="primary">
 
@@ -563,7 +563,7 @@ export class Game extends Component {
                         onDidDismiss={e => this.setState({showEndGame:false})}>
 
                                 <IonItem>
-                                    <IonIcon icon={analytics} slot="start" />
+                                    <IonIcon icon={podium} slot="start" />
                                     <IonLabel>Oyun Sonu</IonLabel>
                                     
                                 </IonItem>
