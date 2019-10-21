@@ -12,7 +12,7 @@ import RotateBtn from './rotatebtn'
 import Cards from './cards'
 import {podium} from 'ionicons/icons'
 import {power} from 'ionicons/icons'
-import {home} from 'ionicons/icons'
+import {arrowRoundBack} from 'ionicons/icons'
 import { IonPopover, IonTitle, IonButton,IonContent,  
     IonCardContent,  IonIcon, IonItem, IonToolbar,IonButtons, IonLabel, IonHeader,IonAlert } from '@ionic/react';
 //import {Dialog} from 'primereact/dialog';
@@ -518,6 +518,7 @@ export class Game extends Component {
                 <IonContent scrollY={false}>
 <IonAlert
           isOpen={this.state.showAlert1}
+          backdropDismiss={false}
           onDidDismiss={() => this.setState({showAlert1 : false})}
           header={'Onaylayınız'}
           message={'Oyunu bitirmek istediğinize emin misiniz ?'}
@@ -525,7 +526,7 @@ export class Game extends Component {
             {
               text: 'İptal',
               role: 'cancel',
-              cssClass: 'secondary',
+              cssClass: 'primary',
               handler: blah => {
                 console.log('Confirm Cancel: blah');
               }
@@ -542,18 +543,18 @@ export class Game extends Component {
 <IonHeader mode="ios" >
       <IonToolbar slot="primary">
         <IonButtons  slot="secondary">
-          <IonButton color="secondary" >
-            <IonIcon slot="icon-only" icon={home}></IonIcon>
+          <IonButton color="danger" >
+            <IonIcon slot="start" icon={arrowRoundBack}></IonIcon>
+            Ana Sayfa
           </IonButton>
-         {this.status < 2 ? <IonButton disabled={this.status > 0} color="secondary" onClick={()=>this.setState({showAlert1:true})}>
-            <IonIcon slot="icon-only" icon={power}></IonIcon>
-          </IonButton>   : ""}       
+    
         </IonButtons>
+        <IonButtons  slot="primary">
 
-
-
-        <IonButtons slot="primary">
-
+         {this.status < 2 ? <IonButton disabled={this.status > 0} color="danger" onClick={()=>this.setState({showAlert1:true})}>
+            <IonIcon slot="start"  icon={power}></IonIcon>           
+             Bitir
+          </IonButton>   : ""}       
         </IonButtons>
 
       </IonToolbar>
@@ -586,7 +587,7 @@ export class Game extends Component {
                         isOpen={this.state.showNetworkError}
                         onDidDismiss={e => this.setState({showNetworkError:false})}>
                         <p style={{textAlign:"center",fontFamily:"Roboto"}}>Sunucu erişimi sağlanamıyor, Internet bağlantınızı kontrol ediniz</p>
-                        <div style={{textAlign:"center",width:"100%"}}><IonButton color="danger" onTouchStart={e=>this.setState({showNetworkError:false})}>Tamam</IonButton></div>
+                        <div style={{textAlign:"center",width:"100%"}}><IonButton color="primary" onTouchStart={e=>this.setState({showNetworkError:false})}>Tamam</IonButton></div>
                     </IonPopover>
                 <div style={{width:"100%",textAlign:"center"}}>
                 
