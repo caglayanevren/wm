@@ -11,7 +11,10 @@ import Score from './score'
 import RotateBtn from './rotatebtn'
 import Cards from './cards'
 import {analytics} from 'ionicons/icons'
-import { IonPopover, IonButton,IonContent, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonItem, IonLabel } from '@ionic/react';
+import {power} from 'ionicons/icons'
+import {home} from 'ionicons/icons'
+import { IonPopover, IonTitle, IonButton,IonContent,  
+    IonCardContent,  IonIcon, IonItem, IonToolbar,IonButtons, IonLabel, IonHeader,IonAlert } from '@ionic/react';
 //import {Dialog} from 'primereact/dialog';
 //import {Button} from 'primereact/button';
 
@@ -54,7 +57,7 @@ export class Game extends Component {
             showNetworkError : false,
             highestScore : {w:".",score:0},
             longest : {w:".",score:0},
-            countdown : 10//300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
+            countdown : 65//300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
         };
         this.onTouchStart = this.onTouchStart.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -73,7 +76,7 @@ export class Game extends Component {
         }
         this.clock = setInterval(()=>{
             
-            if (this.state.countdown === 0){
+            if (this.state.countdown === 0 || this.status === 2){
                 this.status = 1;
                 this.setState({showEndGame : true})
 
@@ -481,11 +484,7 @@ export class Game extends Component {
         const outs = [];
 
         let rotateBtn = null;
-        const myIcon = (
-            <button className="p-dialog-titlebar-icon p-link">
-                <span className="pi pi-search"></span>
-            </button>
-        )
+
         if (this.state.clearedLetterCount === 0){
             rotateBtn = <RotateBtn style={{zIndex:1000,top:"-22px"}} rotate={this.rotate}/>;
         }
@@ -517,7 +516,48 @@ export class Game extends Component {
 
         return (
                 <IonContent scrollY={false}>
+<IonAlert
+          isOpen={this.state.showAlert1}
+          onDidDismiss={() => this.setState({showAlert1 : false})}
+          header={'Onaylayınız'}
+          message={'Oyunu bitirmek istediğinize emin misiniz ?'}
+          buttons={[
+            {
+              text: 'İptal',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: blah => {
+                console.log('Confirm Cancel: blah');
+              }
+            },
+            {
+              text: 'Tamam',
+              handler: () => {
+                this.status = 2;
+                this.setState({showAlert1 : false})
+              }
+            }
+          ]}
+        />                    
+<IonHeader mode="ios" >
+      <IonToolbar slot="primary">
+        <IonButtons  slot="secondary">
+          <IonButton color="medium" >
+            <IonIcon slot="icon-only" icon={home}></IonIcon>
+          </IonButton>
+         {this.status === 0 ? <IonButton disabled={this.status > 0} color="danger" onClick={()=>this.setState({showAlert1:true})}>
+            <IonIcon slot="icon-only" icon={power}></IonIcon>
+          </IonButton>   : ""}       
+        </IonButtons>
 
+        <IonTitle>Header</IonTitle>
+
+        <IonButtons slot="primary">
+
+        </IonButtons>
+
+      </IonToolbar>
+    </IonHeader>
                     <IonPopover
                         isOpen={this.state.showEndGame}
                         onDidDismiss={e => this.setState({showEndGame:false})}>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './index.scss'
+import {IonButton} from '@ionic/react'
 class Score extends React.Component {
     constructor(props) {
       super(props);
@@ -13,9 +14,15 @@ class Score extends React.Component {
 
       let minute = Math.floor(this.props.countdown / 60);
       let second = Math.floor(this.props.countdown % 60);
-      
+      let color = "green";
+      if (this.props.countdown < 30){
+        color = "red";
+      }
+      else if (this.props.countdown < 60){
+        color = "purple"
+      }
       return(
-        <span>
+        <span style={{color:color}}>
           {this.pad(minute) + ":" + this.pad(second)}
         </span>
       )
@@ -42,7 +49,8 @@ class Score extends React.Component {
       return(
 <figure className="scorecard scorecard--normal" style={{width:this.props.width ? this.props.width : "200px"}}>
   <figcaption className="scorecard__caption">
-    <div className="scorecard__name">{this.renderCountdown()}</div>
+    <div className="scorecard__name">{this.renderCountdown()}
+    </div>
     <table className="scorecard__stats">
       <tbody><tr>
         <th style={{fontWeight:500,color:"gray",fontSize:"1em",textAlign:"right"}}>Puan :</th>
