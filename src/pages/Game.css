@@ -120,18 +120,9 @@ body::after{
     :root {
       --ion-safe-area-top: 0px;
 	  --ion-safe-area-bottom: 0px;
-    --ion-color-gold: #b8a124;
-    --ion-color-gold-rgb: 255, 215, 0;
-    --ion-color-gold-contrast: #000000;
-    --ion-color-gold-contrast-rgb: 0, 0, 0;
-    --ion-color-gold-shade: #e0bd00;
-    --ion-color-gold-tint: #ffdb1a;	  
+    --ion-color-gold:linear-gradient(-60deg,#bea358e0,#fae1a6ec);
+ 
 	}
 .ion-color-gold {
     --ion-color-base: var(--ion-color-gold) !important;
-    --ion-color-base-rgb: var(--ion-color-gold-rgb) !important;
-    --ion-color-contrast: var(--ion-color-gold-contrast) !important;
-    --ion-color-contrast-rgb: var(--ion-color-gold-contrast-rgb) !important;
-    --ion-color-shade: var(--ion-color-gold-shade) !important;
-    --ion-color-tint: var(--ion-color-gold-tint) !important;
 }	

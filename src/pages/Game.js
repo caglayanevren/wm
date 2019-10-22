@@ -518,9 +518,9 @@ export class Game extends Component {
         return (
                 <IonContent scrollY={false} >
 <IonHeader>
-      <IonToolbar>
+      <IonToolbar color="gold">
         <IonButtons slot="secondary">
-          <IonButton color="gold">
+          <IonButton  fill="outline">
             <IonIcon slot="icon-only" icon={home}/>
           </IonButton>
         </IonButtons>
@@ -529,7 +529,7 @@ export class Game extends Component {
 
         <IonButtons slot="secondary">
           {(this.status < 2 ?             
-          <IonButton color="gold" onClick={()=>{this.setState({showAlert1:true})}}>
+          <IonButton  fill="outline" onClick={()=>{this.setState({showAlert1:true})}}>
             <IonIcon slot="icon-only" icon={power} />
           </IonButton> : "")}
         </IonButtons>
