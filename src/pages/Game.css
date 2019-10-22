@@ -112,6 +112,12 @@ body::after{
 	padding:0.1em !important;
 
   }
-.--ion-grid-padding{
-	padding:0
-}
+  ion-content{
+	  --background :   url("./coc-background.jpg");
+
+  }
+
+    :root {
+      --ion-safe-area-top: 0px;
+	  --ion-safe-area-bottom: 0px;
+    }

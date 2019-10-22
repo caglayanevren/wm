@@ -14,7 +14,7 @@ import {podium} from 'ionicons/icons'
 import {menu} from 'ionicons/icons'
 import {power} from 'ionicons/icons'
 import {home} from 'ionicons/icons'
-import { IonPopover, IonText, IonButton,IonContent,  IonFab, IonFabButton,  IonFabList 
+import { IonPopover, IonTitle, IonButton,IonContent,IonFooter,  IonFab, IonFabButton,  IonFabList 
     ,IonCardContent,  IonIcon, IonItem, IonToolbar,IonButtons, IonLabel, IonHeader,IonAlert } from '@ionic/react';
 //import {Dialog} from 'primereact/dialog';
 //import {Button} from 'primereact/button';
@@ -26,7 +26,7 @@ export class Game extends Component {
     touchList = [];
     score = 0;
     clearedLetterCount = 0;
-    wordList = [];
+    wordList = [{word:".",score:0,desc:"."}];
     status = 1;
     highestScore = {w:".",score:0};
     longest = {w:".",score:0};
@@ -516,7 +516,26 @@ export class Game extends Component {
         }
 
         return (
-                <IonContent scrollY={false}>
+                <IonContent scrollY={false} >
+<IonHeader>
+      <IonToolbar color="primary">
+        <IonButtons slot="secondary">
+          <IonButton>
+            <IonIcon slot="icon-only" icon={home}/>
+          </IonButton>
+        </IonButtons>
+
+        <IonTitle></IonTitle>
+
+        <IonButtons slot="secondary">
+          {(this.status < 2 ?             
+          <IonButton onClick={()=>{this.setState({showAlert1:true})}}>
+            <IonIcon slot="icon-only" icon={power} />
+          </IonButton> : "")}
+        </IonButtons>
+      </IonToolbar>
+    </IonHeader>                    
+                    
 <IonAlert
           isOpen={this.state.showAlert1}
           backdropDismiss={false}
@@ -541,20 +560,7 @@ export class Game extends Component {
             }
           ]}
         />                    
- <IonFab size="small" horizontal="start" vertical="bottom"  slot="fixed">
-        <IonFabButton color="dark">
-          <IonIcon icon={menu}></IonIcon>
-        </IonFabButton>
-        <IonFabList side="end">
-          <IonFabButton color="primary">
-            <IonIcon icon={home}></IonIcon>
-          </IonFabButton>
-          {(this.status < 2 ?  <IonFabButton color="danger" onClick={()=>this.setState({showAlert1:true})}>
-            <IonIcon icon={power}></IonIcon>
-          </IonFabButton> : "")}
-        </IonFabList> 
-      </IonFab>
-    
+
                     <IonPopover
                         isOpen={this.state.showEndGame}
                         onDidDismiss={e => this.setState({showEndGame:false})}>
@@ -573,13 +579,6 @@ export class Game extends Component {
                                     </div>
                                     <br/>
                                     <div style={{textAlign:"center"}}><IonButton onTouchStart={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
-
-                                
-
-
-                                                                                
-
-                                
                         </IonPopover>
 
                
@@ -607,6 +606,8 @@ export class Game extends Component {
                     <Cards list={this.state.wordList} width={(this.state.size * 10 - 3) + "px"}/>
                 </div>
                 </div>
+
+                    
                 </IonContent>
         )
     }

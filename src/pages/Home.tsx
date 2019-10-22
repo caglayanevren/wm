@@ -1,4 +1,4 @@
-import { IonApp} from '@ionic/react';
+import { IonApp,IonPage} from '@ionic/react';
 import React from 'react';
 import Game from './Game';
 
@@ -30,7 +30,9 @@ class Home extends React.Component<any,any> {
   return (
 
    <IonApp>
+     <IonPage className="bg">
     <Game/>
+    </IonPage>
     </IonApp>
 
  );
