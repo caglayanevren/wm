@@ -22,7 +22,7 @@ class Score extends React.Component {
         color = "purple"
       }
       return(
-        <span style={{color:color}}>
+        <span style={{color:color,fontSize:"1.4em"}}>
           {this.pad(minute) + ":" + this.pad(second)}
         </span>
       )
