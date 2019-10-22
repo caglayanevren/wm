@@ -578,7 +578,7 @@ export class Game extends Component {
                                     <div style={{display:"inline-block",color:"gray",width:"60%"}}>Toplanan Harf</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.clearedLetterCount}</div>
                                     </div>
                                     <br/>
-                                    <div style={{textAlign:"center"}}><IonButton onTouchStart={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
+                                    <div style={{textAlign:"center"}}><IonButton onClick={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
                         </IonPopover>
 
                
@@ -590,7 +590,7 @@ export class Game extends Component {
                     </IonPopover>
                 <div style={{width:"100%",textAlign:"center"}}>
                 
-                <div><Score countdown={this.state.countdown} longest={this.state.longest} highestScore={this.state.highestScore} score={this.state.score} percentage={this.state.clearedLetterCount} width={this.state.size * 10 + "px"}/></div>
+                <div><Score countdown={this.state.countdown} longest={this.state.longest} highestScore={this.state.highestScore} score={this.state.score} percentage={this.state.clearedLetterCount} width={(this.state.size * 10 - 10) + "px"}/></div>
                 <div>
                 <div className="rack" style={{display:"inline-block",width:this.state.size * 10}}><div>&nbsp;{this.state.currentWord}</div></div>
                 </div>
@@ -603,7 +603,7 @@ export class Game extends Component {
                     </div>
                 </div>
                 <div>
-                    <Cards list={this.state.wordList} width={(this.state.size * 10 - 3) + "px"}/>
+                    <Cards list={this.state.wordList} width={(this.state.size * 10 - 10) + "px"}/>
                 </div>
                 </div>
 

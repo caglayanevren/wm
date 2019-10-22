@@ -1,6 +1,7 @@
 import { IonApp,IonPage} from '@ionic/react';
 import React from 'react';
 import Game from './Game';
+import Config from './Config';
 
 class Home extends React.Component<any,any> {
   interval : any;
@@ -9,23 +10,20 @@ class Home extends React.Component<any,any> {
     this.state={
       time : 1
     }
-
-    this.rotate = this.rotate.bind(this);
+    let size = Math.floor(window.innerWidth / 10);
+    if (window.innerWidth <= 400){
+      size = 40;
+    }
+    else if (window.innerWidth >= 600){
+      size = 60;
+    }
+    Config.size = size;
   }
   rotate(){
-    if (this.interval){
-      return;
-    }
-    this.interval = setInterval(()=>{
-      this.setState({time : this.state.time + 1})
-    },1000);
-    console.log(this.interval);
+
   }
   render(){
-    const slideOpts = {
-  initialSlide: 1,
-  speed: 400
-};
+
 
   return (
 
