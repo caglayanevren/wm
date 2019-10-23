@@ -84,7 +84,7 @@ body::after{
 {
 
 	/*background-color: #266b58;*/
-	background:linear-gradient(-60deg,#339966,#206955);/*-webkit-gradient(linear, 100% 100%, 0% 5%, from(#339966), to(#206955));*/
+	background:linear-gradient(-50deg,#339966,#206955);/*-webkit-gradient(linear, 100% 100%, 0% 5%, from(#339966), to(#206955));*/
 	border-right: 1px solid #2e1b1b;
 	border-left: 1px solid #2e1b1b;
 	border-top: 1px solid #2e1b1b;
@@ -120,9 +120,18 @@ body::after{
     :root {
       --ion-safe-area-top: 0px;
 	  --ion-safe-area-bottom: 0px;
-    --ion-color-gold:linear-gradient(-60deg,#bea358e0,#fae1a6ec);
+    --ion-color-gold:linear-gradient(-40deg,#bea358e0,#fae1a6ec);
  
 	}
 .ion-color-gold {
     --ion-color-base: var(--ion-color-gold) !important;
 }	
+
+
+.dw {
+	background: #d72421 !important;
+	color: #f8bdb4;
+	user-select: none;
+	text-align: center;
+	display:table;
+}

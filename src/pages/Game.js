@@ -14,9 +14,8 @@ import {podium} from 'ionicons/icons'
 import {menu} from 'ionicons/icons'
 import {power} from 'ionicons/icons'
 import {home} from 'ionicons/icons'
-import { IonPopover, IonTitle, IonButton,IonContent,IonFooter,  IonFab, IonFabButton,  IonFabList 
-    ,IonCardContent,  IonIcon, IonItem, IonToolbar,IonButtons, IonLabel, IonHeader,IonAlert } from '@ionic/react';
-//import {Dialog} from 'primereact/dialog';
+import { IonPopover, IonTitle, IonButton,IonContent, IonIcon, IonItem, IonToolbar,IonButtons, IonHeader,IonAlert } from '@ionic/react';
+import Storage from '../service/Storage';
 //import {Button} from 'primereact/button';
 
 
@@ -43,11 +42,25 @@ export class Game extends Component {
             [null,null,null,null,null,null,null,null,null,null],
             [null,null,null,null,null,null,null,null,null,null],
             [null,null,null,null,null,null,null,null,null,null]];
-    rotatedBoard = null;
+    boardConfig = [[1,0,0,4,0,0,4,0,0,1],
+                   [0,2,0,0,0,0,0,0,2,0],
+                   [0,0,2,0,4,0,0,2,0,0],
+                   [0,3,0,0,0,0,0,0,3,0],
+                   [0,0,0,0,4,0,0,0,0,0],
+                   [0,3,0,0,0,4,0,0,3,0],
+                   [0,0,0,0,0,0,0,0,0,0],
+                   [0,0,2,0,0,4,0,2,0,0],
+                   [0,0,0,0,0,0,0,0,0,0],
+                   [1,0,0,4,0,0,4,0,0,1]]
+    rotatedBoard = null;    
+    storage = new Storage();
     constructor(props) {
         super(props);
+
         this.startDate = (this.props.startDate ? this.props.startDate : new Date());
         this.state = {
+            id : Math.random().toString(36).substr(2, 9),
+            startDate : this.startDate,
             board :this.board,
             size : Config.size,
             score : this.score,
@@ -60,6 +73,7 @@ export class Game extends Component {
             longest : {w:".",score:0},
             countdown : 65//300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
         };
+        
         this.onTouchStart = this.onTouchStart.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
 
@@ -82,6 +96,7 @@ export class Game extends Component {
                 this.setState({showEndGame : true})
 
                 clearInterval(this.clock);
+                this.storage.saveGameState(this.state);
                 return;
             }
             this.setState({
@@ -255,6 +270,7 @@ export class Game extends Component {
         this.setState({
             board : this.board
         });
+        setTimeout(()=>{this.storage.saveGameState(this.state)},100);
     }
 
     resize(){
@@ -349,7 +365,8 @@ export class Game extends Component {
                     }
 
                 }).catch(e => {
-                    this.status = 0;
+                    if (this.status === 1)
+                        this.status = 0;
                     console.log("ERRORRR  -->" + e);
                     this.setState({showNetworkError:true,currentWord:""});
                     this.touchList = [];
@@ -484,7 +501,7 @@ export class Game extends Component {
        
         const cells = [];
         const outs = [];
-
+        let s3 = <div style={{display:"table-cell",verticalAlign:"middle"}}>Sx3</div>
         let rotateBtn = null;
 
         if (this.state.clearedLetterCount === 0){
@@ -500,9 +517,11 @@ export class Game extends Component {
         }
         for (const [r, row] of this.state.board.entries()) {
             for (const [c,cell] of row.entries()) {
-                cells.push(<div id={r + "" + c} key={r + " " + c} className="cell" style={{width : this.state.size + "px", height: this.state.size + "px",left: c * this.state.size,top : r * this.state.size}}></div>)
+                cells.push(<div id={r + "" + c} key={r + " " + c} className="cell" style={{width : this.state.size + "px", height: this.state.size + "px",left: c * this.state.size,top : r * this.state.size}}>
+                   
+                </div>)
 
-                if (cell != null){   
+                if (cell != null && cell.val != null){   
         
                     cells.push(
                         <Block 
@@ -556,6 +575,7 @@ export class Game extends Component {
               text: 'Tamam',
               handler: () => {
                 this.status = 2;
+                this.storage.saveGameState(this.state);
                 this.setState({showAlert1 : false})
               }
             }
