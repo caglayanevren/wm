@@ -129,8 +129,8 @@ export class Game extends Component {
                     let dropTo = {l:9-col,c:line}                
                     
                     var rule =  '@keyframes anim' + line + '' + col + '{\
-                        0%  {z-index:100;left :' + (col * this.state.size + 2) + 'px; top :' + (line * this.state.size + 2)  + 'px;}\
-                        100% {z-index:100;left :' + (dropTo.c * this.state.size + 2) + 'px; top :' + (2 + dropTo.l * this.state.size) + 'px;}\
+                        0%  {z-index:100;left :' + (col * this.state.size + 1) + 'px; top :' + (line * this.state.size + 1)  + 'px;}\
+                        100% {z-index:100;left :' + (dropTo.c * this.state.size + 1) + 'px; top :' + (1 + dropTo.l * this.state.size) + 'px;}\
                     }';
                     this.board[line][col].anim = "styleAnim" + line + "" + col;
                     this.board[line][col].dropTo = dropTo
@@ -327,10 +327,10 @@ export class Game extends Component {
       
                         for(const [,t] of this.touchList.entries()){
                             let rule =  '@keyframes out' + t.l + '' + t.c + '{\
-                                0%  {z-index:100;left :' + (t.c * this.state.size + 2) + 'px; top :' + (t.l * this.state.size + 2)  + 'px;}\
-                                25%  {z-index:100;left :' + (t.c * this.state.size + 2) + 'px; top :' + ((t.l + 1) * this.state.size + 2)  + 'px; opacity:0.6;}\
-                                50%  {z-index:100;left :' + (t.c * this.state.size + 2) + 'px; top :' + ((t.l + 2) * this.state.size + 2)  + 'px; opacity:0.4;}\
-                                100% {z-index:100;left :' + (t.c * this.state.size + 2) + 'px; top :' + ((t.l + 4) * this.state.size + 2) + 'px;opacity:0}\
+                                0%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + (t.l * this.state.size + 1)  + 'px;}\
+                                25%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 1) * this.state.size + 1)  + 'px; opacity:0.6;}\
+                                50%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 2) * this.state.size + 2)  + 'px; opacity:0.4;}\
+                                100% {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 4) * this.state.size + 1) + 'px;opacity:0}\
                             }';
                             outList.push({val:this.board[t.l][t.c].val,anim:"out" + t.l + "" + t.c,l:t.l,c:t.c})
                                    
@@ -523,7 +523,7 @@ export class Game extends Component {
         for (const [i,o] of this.state.outList.entries()) {
             outs.push(
                 <div key={"out" + i} onAnimationEnd={(e)=>this.onOutAnimationEnd()}
-                 className={"block " + o.anim} style={{zIndex:-100,width : (this.state.size - 4) + "px", height: (this.state.size - 4) + "px",left: o.c * this.state.size + 2,top : o.l * this.state.size + 2}}>
+                 className={"block " + o.anim} style={{zIndex:-100,width : (this.state.size - 4) + "px", height: (this.state.size - 4) + "px",left: o.c * this.state.size + 1,top : o.l * this.state.size + 1}}>
                     <span className="letter" style={{fontSize:this.state.size * 0.55}}>{Config.alphabet[o.val]}</span> <span className="number" style={{fontSize:this.state.size * 0.16}}>{Config.scores[o.value]}</span>
                 </div>
             )
@@ -536,13 +536,13 @@ export class Game extends Component {
 
                 if (cell != null && cell.val != null){   
         
-                  /*  cells.push(
-                        <Block 
-
+                    cells.push(
+                        <Block
+                        bonus = {this.boardConfig[r][c]}
                         onMouseMove={this.onMouseMove} onTouchStart={this.onTouchStart} onAnimationEnd={this.onAnimationEnd}
                         key={"" + r + c} value={cell.val} line={r} col={c} anim={cell.anim} size={this.state.size} 
                         touched={cell.touched}/>
-                    )*/
+                    )
                 }
             }
 
@@ -562,7 +562,7 @@ export class Game extends Component {
 
         <IonButtons slot="secondary">
           {(this.status < 2 ?             
-          <IonButton  fill="outline" onClick={()=>{this.setState({showAlert1:true})}}>
+          <IonButton  fill="outline" onTouchEnd={()=>{this.setState({showAlert1:true})}} onClick={()=>{this.setState({showAlert1:true})}}>
             <IonIcon slot="icon-only" icon={power} />
           </IonButton> : "")}
         </IonButtons>
@@ -669,8 +669,8 @@ export class Game extends Component {
                 else if (dropLevel != null) {
                     delay = delay + 0.05;
                     var rule =  '@keyframes anim' + l + '' + c + '{\
-                        0%  {z-index:100;left :' + (c * this.state.size + 2) + 'px; top :' + (l * this.state.size + 2)  + 'px;}\
-                        100% {z-index:100;left :' + (c * this.state.size + 2) + 'px; top :' + (2 + dropLevel.l * this.state.size) + 'px;}\
+                        0%  {z-index:100;left :' + (c * this.state.size + 1) + 'px; top :' + (l * this.state.size + 1)  + 'px;}\
+                        100% {z-index:100;left :' + (c * this.state.size + 1) + 'px; top :' + (1 + dropLevel.l * this.state.size) + 'px;}\
                     }';
 
                     this.board[l][c].anim = "styleAnim" + l + "" + c;

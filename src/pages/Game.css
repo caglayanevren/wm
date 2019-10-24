@@ -9,15 +9,13 @@ body {
 	
 }
 body::after{
-	background: url("./letters.jpg") !important;
-	content:"" !important;
-	opacity:0.6 !important;
+
 }
 .letter {
 	font-family: "Roboto", Arial, sans-serif;
 	font-size: 30px;
 	color: #272832;
-	text-shadow:1px 1px 0px #fff5d7;
+	text-shadow:1px 1px 0px #beb79f;
 	margin: 0px;
 
 }
@@ -56,7 +54,7 @@ body::after{
 
 
 
-	border: 1px solid;
+	border: 0px solid;
 	box-shadow: inset 0 0 20px rgba(255, 255, 255, .9), 0 0 20px rgba(245, 241, 241, 0.3);
 	outline-color: rgba(41, 14, 68, 0);
 	outline-offset: 10px;
@@ -134,15 +132,25 @@ body::after{
 	user-select: none;
 	text-align: center;
 	display:table;
+	border-right: 1px solid #2e1b1b;
+	border-left: 1px solid #2e1b1b;
+	border-top: 1px solid #2e1b1b;
+	border-bottom: 1px solid #2e1b1b;
 }
+
 .dw{
 	background: #ffbead !important;
 	color: #b86e74;
 	user-select: none;
 	text-align: center;
-	display:table;	
+	display:table;
+	border-right: 1px solid #2e1b1b;
+	border-left: 1px solid #2e1b1b;
+	border-top: 1px solid #2e1b1b;
+	border-bottom: 1px solid #2e1b1b;	
 
 }
+
 .tl{
 	background: #4695ca !important;
 	color: #c3f5f7;
@@ -151,9 +159,17 @@ body::after{
 	display:table;
 }
 
+
 .dl{
 	background: #6fe6f6 !important;
 	color: #5d94c5;
 	display:table;
+}
 
+.bonus{
+	position:absolute;
+	font-size: 0.8em;
+	bottom:1px;
+	right:2px;
+	text-shadow:0px 0px 0px #fff5d7;
 }
