@@ -42,16 +42,16 @@ export class Game extends Component {
             [null,null,null,null,null,null,null,null,null,null],
             [null,null,null,null,null,null,null,null,null,null],
             [null,null,null,null,null,null,null,null,null,null]];
-    boardConfig = [[1,0,0,4,0,0,4,0,0,1],
-                   [0,2,0,0,0,0,0,0,2,0],
-                   [0,0,2,0,4,0,0,2,0,0],
-                   [0,3,0,0,0,0,0,0,3,0],
-                   [0,0,0,0,4,0,0,0,0,0],
-                   [0,3,0,0,0,4,0,0,3,0],
-                   [0,0,0,0,0,0,0,0,0,0],
-                   [0,0,2,0,0,4,0,2,0,0],
-                   [0,0,0,0,0,0,0,0,0,0],
-                   [1,0,0,4,0,0,4,0,0,1]]
+    boardConfig = [["tw","","","dl","","","dl","","","tw"],
+                   ["","dw","","","","","","","dw",""],
+                   ["","","dw","","dl","","","dw","",""],
+                   ["","tl","","","","","","","tl",""],
+                   ["","","","",4,"","","","",""],
+                   ["","tl","","","","dl","","","tl",""],
+                   ["","","","","","","","","",""],
+                   ["","","dw","","","dl","","dw","",""],
+                   ["","","","","","","","","",""],
+                   ["tw","","","dl","","","dl","","","tw"]]
     rotatedBoard = null;    
     storage = new Storage();
     constructor(props) {
@@ -497,11 +497,24 @@ export class Game extends Component {
       return num;
     }
 
+    renderBonus(r,c){
+        let tw = <div style={{display:"table-cell",verticalAlign:"middle"}}>Sx3</div>
+        let dw = <div style={{display:"table-cell",verticalAlign:"middle"}}>Sx2</div>
+        let tl = <div style={{display:"table-cell",verticalAlign:"middle"}}>Hx3</div>
+        let dl = <div style={{display:"table-cell",verticalAlign:"middle"}}>Hx2</div>
+
+        switch(this.boardConfig[r][c]) {
+            case "tw" : return tw;
+            case "dw" : return dw;
+            case "tl" : return tl;
+            case "dl" : return dl;
+            default : return "";
+        }
+    }
     render() {
        
         const cells = [];
         const outs = [];
-        let s3 = <div style={{display:"table-cell",verticalAlign:"middle"}}>Sx3</div>
         let rotateBtn = null;
 
         if (this.state.clearedLetterCount === 0){
@@ -517,19 +530,19 @@ export class Game extends Component {
         }
         for (const [r, row] of this.state.board.entries()) {
             for (const [c,cell] of row.entries()) {
-                cells.push(<div id={r + "" + c} key={r + " " + c} className="cell" style={{width : this.state.size + "px", height: this.state.size + "px",left: c * this.state.size,top : r * this.state.size}}>
-                   
+                cells.push(<div id={r + "" + c} key={r + " " + c} className={"cell " + this.boardConfig[r][c]} style={{width : this.state.size + "px", height: this.state.size + "px",left: c * this.state.size,top : r * this.state.size}}>
+                   {this.renderBonus(r,c)}
                 </div>)
 
                 if (cell != null && cell.val != null){   
         
-                    cells.push(
+                  /*  cells.push(
                         <Block 
 
                         onMouseMove={this.onMouseMove} onTouchStart={this.onTouchStart} onAnimationEnd={this.onAnimationEnd}
                         key={"" + r + c} value={cell.val} line={r} col={c} anim={cell.anim} size={this.state.size} 
                         touched={cell.touched}/>
-                    )
+                    )*/
                 }
             }
 

@@ -128,10 +128,32 @@ body::after{
 }	
 
 
-.dw {
+.tw {
 	background: #d72421 !important;
 	color: #f8bdb4;
 	user-select: none;
 	text-align: center;
 	display:table;
+}
+.dw{
+	background: #ffbead !important;
+	color: #b86e74;
+	user-select: none;
+	text-align: center;
+	display:table;	
+
+}
+.tl{
+	background: #4695ca !important;
+	color: #c3f5f7;
+	user-select: none;
+	text-align: center;
+	display:table;
+}
+
+.dl{
+	background: #6fe6f6 !important;
+	color: #5d94c5;
+	display:table;
+
 }
