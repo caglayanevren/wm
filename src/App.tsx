@@ -1,9 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonApp, IonRouterOutlet,IonPage } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
-
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -24,15 +22,34 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/home" component={Home} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+import Main from './pages/Main';
+import Login from './pages/Login';
+import Config from './pages/Config';
+
+class App  extends React.Component<any,any>{
+  profile : any;
+  constructor(props : any){
+    super(props);
+    let size = Math.floor(window.innerWidth / 10);
+    if (window.innerWidth <= 400){
+      size = 40;
+    }
+    else if (window.innerWidth >= 600){
+      size = 60;
+    }
+    Config.size = size;
+    let profileStr = null;
+    profileStr = localStorage.getItem("profile");
+    if (profileStr != null){
+      this.profile = JSON.parse(profileStr)
+    }
+    
+  }
+  render(){
+
+    let landing = this.profile.googleId === null ? <Login/> : <Main profile={this.profile}/>
+    return (<IonApp><IonPage className="bg">{landing}</IonPage></IonApp>);
+  }
+}
 
 export default App;

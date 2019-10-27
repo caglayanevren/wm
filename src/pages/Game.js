@@ -43,8 +43,8 @@ export class Game extends Component {
             [null,null,null,null,null,null,null,null,null,null],
             [null,null,null,null,null,null,null,null,null,null]];
     boardConfig = [["tw","","","dl","","","dl","","","tw"],
-                   ["","dw","","","","","","","dw",""],
-                   ["","","dw","","dl","","","dw","",""],
+                   ["","","","","","","","","dw",""],
+                   ["","","","dw","","dl","","dw","",""],
                    ["","tl","","","","","","","tl",""],
                    ["","","","",4,"","","","",""],
                    ["","tl","","","","dl","","","tl",""],
@@ -620,7 +620,7 @@ export class Game extends Component {
                         isOpen={this.state.showNetworkError}
                         onDidDismiss={e => this.setState({showNetworkError:false})}>
                         <p style={{textAlign:"center",fontFamily:"Roboto"}}>Sunucu erişimi sağlanamıyor, Internet bağlantınızı kontrol ediniz</p>
-                        <div style={{textAlign:"center",width:"100%"}}><IonButton color="primary" onTouchStart={e=>this.setState({showNetworkError:false})}>Tamam</IonButton></div>
+                        <div style={{textAlign:"center",width:"100%"}}><IonButton color="primary" onclick={e=>this.setState({showNetworkError:false})} onTouchStart={e=>this.setState({showNetworkError:false})}>Tamam</IonButton></div>
                     </IonPopover>
                 <div style={{width:"100%",textAlign:"center"}}>
                 
