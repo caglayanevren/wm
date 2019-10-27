@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet,IonPage } from '@ionic/react';
+import { IonApp, IonRouterOutlet,IonPage,IonContent } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 
 /* Core CSS required for Ionic components to work properly */
@@ -48,7 +48,7 @@ class App  extends React.Component<any,any>{
   render(){
 
     let landing = this.profile.googleId === null ? <Login/> : <Main profile={this.profile}/>
-    return (<IonApp><IonPage className="bg">{landing}</IonPage></IonApp>);
+    return (<IonApp>{landing}</IonApp>);
   }
 }
 
