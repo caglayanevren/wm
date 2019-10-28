@@ -7,11 +7,21 @@ export class Storage{
         }
     }
     saveGameState(state){
-        let i = this.getById(state.id);
-        if (i === -1)
+        var i = 0;
+
+        for(i = 0; i < this.gameList.length; i++){
+            let g = this.gameList[i];
+            if (g.score * g.clearedLetterCount / 100 <= state.score * state.clearedLetterCount / 100){
+                this.gameList.splice(i, 0, state);
+                break;
+            }
+        }
+        if (i === this.gameList.length && i < 6){
             this.gameList.push(state);
-        else
-            this.gameList[i] = state;
+        }
+        else if (this.gameList.length > 6){ 
+            this.gameList.splice(this.gameList.length,this.gameList.length - 6);
+        }
         localStorage.setItem("gameList",JSON.stringify(this.gameList));
     }
     getById(id){

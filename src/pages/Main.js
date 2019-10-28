@@ -6,7 +6,7 @@ import axios from 'axios';
 import { IonAvatar,IonSlide,IonSlides,IonChip,IonPopover,IonTitle,IonLabel,IonButton,IonIcon, IonContent,IonItem,IonButtons, IonHeader,IonToolbar} from '@ionic/react';
 import Storage from '../service/Storage';
 import { GoogleLogin } from 'react-google-login';
-import './cards/index.scss';
+import './Main.scss';
 import {stats} from 'ionicons/icons'
 //import {Button} from 'primereact/button';
 
@@ -33,14 +33,16 @@ export class Main extends Component {
           };        
         for(const[i,g] of this.gameList.entries()){
             gameCards.push(
-                <IonSlide>
+                <ion-col size="6">
                 <div className="wrapper">
                   <div className="clash-card barbarian">
               
                     <div className="clash-card__level clash-card__level--barbarian">{new Date(g.startDate).toLocaleDateString('tr-TR', options)}</div>
 
                     <div className="clash-card__unit-description">
-                    The Barbarian
+                    <IonButton shape="round" fill="outline" size="small" color="medium">
+                        Göz at
+                    </IonButton>
                     </div>
               
                     <div className="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
@@ -48,7 +50,10 @@ export class Main extends Component {
                         <div className="stat">{g.clearedLetterCount}%</div>
                         <div className="stat-value">Yüzde</div>
                       </div>
-              
+                      <div className="one-third">
+                        <div className="stat">{g.score}</div>
+                        <div className="stat-value">Puan</div>
+                      </div>              
                       <div className="one-third no-border">
                         <div className="stat">{g.score}</div>
                         <div className="stat-value">Puan</div>
@@ -57,7 +62,7 @@ export class Main extends Component {
               
                   </div> 
                 </div>
-                </IonSlide>
+                </ion-col>
             )
         }
 
@@ -95,11 +100,12 @@ export class Main extends Component {
     </IonButtons>
     </IonToolbar>
 
-
     </IonHeader>
-    <IonSlides pager={true} infinite={false} effect="coverflow" options={slideOpts}>
-            {gameCards}
-     </IonSlides>
+    <ion-grid>
+      <ion-row>
+        {gameCards}
+      </ion-row>
+    </ion-grid>
   </IonContent> 
   
   );

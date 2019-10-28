@@ -62,7 +62,7 @@ export class Game extends Component {
             id : Math.random().toString(36).substr(2, 9),
             startDate : this.startDate,
             board :this.board,
-            size : Config.size,
+            size : props.size ? props.size : Config.size,
             score : this.score,
             clearedLetterCount : this.clearedLetterCount,
             wordList : this.wordList,
@@ -71,7 +71,7 @@ export class Game extends Component {
             showNetworkError : false,
             highestScore : {w:".",score:0},
             longest : {w:".",score:0},
-            countdown : 65//300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
+            countdown : 300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
         };
         
         this.onTouchStart = this.onTouchStart.bind(this);
