@@ -13,14 +13,7 @@ import Storage from '../service/Storage';
 
 export class GameView extends Component {
 
-    bag = [];
-    touchList = [];
-    score = 0;
-    clearedLetterCount = 0;
-    wordList = [{word:".",score:0,desc:"."}];
     status = 1;
-    highestScore = {w:".",score:0};
-    longest = {w:".",score:0};
     startDate = new Date();
     clock = 0;
     
@@ -50,6 +43,7 @@ export class GameView extends Component {
         super(props);
         console.log(JSON.stringify(this.props.state))
         this.status = 2;
+        this.props.state.wordList.shift();
         this.state = {
             id : this.props.state.id,
             startDate : this.props.state.startDate,
@@ -157,25 +151,6 @@ export class GameView extends Component {
         <IonTitle></IonTitle>
       </IonToolbar>
     </IonHeader>                    
-                    <IonPopover
-                        isOpen={this.state.showEndGame}
-                        onDidDismiss={e => this.setState({showEndGame:false})}>
-
-                                <IonItem>
-                                    <IonIcon icon={podium} slot="start" />
-                                    <span style={{fontWeight:500}}>Oyun Sonu</span>
-                                    
-                                </IonItem>
-
-                                
-                                    <div style={{width:"100%",padding:"10px"}}>
-                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Kalan Süre</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.pad(Math.floor(this.state.countdown / 60))}:{this.pad(this.state.countdown % 60)}</div><br/>
-                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Puan</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.score}</div><br/>
-                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Toplanan Harf</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.clearedLetterCount}</div>
-                                    </div>
-                                    <br/>
-                                    <div style={{textAlign:"center"}}><IonButton onClick={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
-                        </IonPopover>
 
                
 
@@ -197,7 +172,26 @@ export class GameView extends Component {
                 </div>
                 </div>
 
-                    
+                <IonPopover
+                        isOpen={this.state.showEndGame}
+                        onDidDismiss={e => this.setState({showEndGame:false})}>
+
+                                <IonItem>
+                                    <IonIcon icon={podium} slot="start" />
+                                    <span style={{fontWeight:500}}>Oyun Sonu</span>
+                                    
+                                </IonItem>
+
+                                
+                                    <div style={{width:"100%",padding:"10px"}}>
+                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Kalan Süre</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.pad(Math.floor(this.state.countdown / 60))}:{this.pad(this.state.countdown % 60)}</div><br/>
+                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Puan</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.score}</div><br/>
+                                    <div style={{display:"inline-block",color:"gray",width:"60%"}}>Toplanan Harf</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.clearedLetterCount}</div>
+                                    </div>
+                                    <br/>
+                                    <div style={{textAlign:"center"}}><IonButton onClick={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
+                        </IonPopover>
+
                 </IonContent>
         )
     }

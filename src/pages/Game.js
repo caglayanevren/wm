@@ -106,25 +106,6 @@ export class Game extends Component {
 
     }
 
-    initializeViewOnly(){
-        this.status = 2;
-        this.state = {
-            id : this.props.state.id,
-            startDate : this.props.state.startDate,
-            board :this.props.state.board,
-            size : Config.size,
-            score : this.props.state.score,
-            clearedLetterCount : this.props.state.clearedLetterCount,
-            wordList : this.props.state.wordList,
-            currentWord:"",
-            outList : [],
-            showNetworkError : false,
-            highestScore : this.props.state.highestScore,
-            longest : this.props.state.longest,
-            countdown : this.props.state.countdown,
-            showEndGame : true
-        };
-    }
 
     rotate(){
 
