@@ -20,7 +20,7 @@ export class Storage{
             this.gameList.push(state);
         }
         else if (this.gameList.length > 6){ 
-            this.gameList.splice(this.gameList.length,this.gameList.length - 6);
+            this.gameList.splice(6,this.gameList.length - 6);
         }
         localStorage.setItem("gameList",JSON.stringify(this.gameList));
     }

@@ -91,7 +91,7 @@ export class Game extends Component {
         }
         this.clock = setInterval(()=>{
             
-            if (this.state.countdown === 0 || this.status === 2){
+            if (this.state.countdown === 0){
                 this.status = 2;
                 this.setState({showEndGame : true})
 
@@ -288,7 +288,7 @@ export class Game extends Component {
         this.setState({
             board : this.board
         });
-        setTimeout(()=>{this.storage.saveGameState(this.state)},100);
+        //setTimeout(()=>{this.storage.saveGameState(this.state)},100);
     }
 
     resize(){
@@ -605,6 +605,8 @@ export class Game extends Component {
             {
               text: 'Tamam',
               handler: () => {
+               
+                clearInterval(this.clock);
                 this.status = 2;
                 this.storage.saveGameState(this.state);
                 this.setState({showAlert1 : false})

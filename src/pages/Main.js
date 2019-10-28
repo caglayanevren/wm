@@ -5,7 +5,7 @@ import { IonAvatar,IonPopover,IonTitle,IonButton,IonIcon, IonContent,IonItem,Ion
 import Storage from '../service/Storage';
 import { GoogleLogin } from 'react-google-login';
 import Game from './Game';
-import GameView from './Game';
+import GameView from './GameView';
 
 import './Main.scss';
 import {stats} from 'ionicons/icons'
@@ -47,7 +47,7 @@ export class Main extends Component {
       return(<IonContent scrollY={false} fullscreen={true}><Game/></IonContent>)
     }
     renderGameView(){
-      return(<IonContent scrollY={false} fullscreen={true}><GameView state={this.selectedGame}/></IonContent>)
+      return(<IonContent scrollY={false} fullscreen={true}><GameView state={this.state.selectedGame}/></IonContent>)
     }
     renderMain(){
         let gameCards = [];
@@ -58,14 +58,14 @@ export class Main extends Component {
           };        
         for(const[i,g] of this.gameList.entries()){
             gameCards.push(
-                <ion-col size="6">
+                <ion-col size="6" key={i}>
                 <div className="wrapper">
                   <div className="clash-card barbarian">
               
                     <div className="clash-card__level clash-card__level--barbarian">{new Date(g.startDate).toLocaleDateString('tr-TR', options)}</div>
 
                     <div className="clash-card__unit-description">
-                    <IonButton shape="round" fill="outline" size="small" color="medium" onClick={this.openGameView}>
+                    <IonButton shape="round" fill="outline" size="small" color="medium" onClick={()=>this.openGameView(i)}>
                         Göz at
                     </IonButton>
                     </div>

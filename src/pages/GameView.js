@@ -11,7 +11,7 @@ import { IonPopover, IonTitle, IonButton,IonContent, IonIcon, IonItem, IonToolba
 import Storage from '../service/Storage';
 
 
-export class Game extends Component {
+export class GameView extends Component {
 
     bag = [];
     touchList = [];
@@ -48,6 +48,7 @@ export class Game extends Component {
     storage = new Storage();
     constructor(props) {
         super(props);
+        console.log(JSON.stringify(this.props.state))
         this.status = 2;
         this.state = {
             id : this.props.state.id,
