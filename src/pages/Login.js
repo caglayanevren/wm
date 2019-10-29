@@ -32,7 +32,7 @@ export class Login extends Component {
 
     render(){
         let btn =
-        <IonContent>
+        <IonContent scrollY={false}>
             <ion-grid>
             <ion-row>
             <ion-col size="3"/>
