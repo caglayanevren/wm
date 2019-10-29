@@ -44,11 +44,22 @@ class App  extends React.Component<any,any>{
     if (profileStr != null){
       this.profile = JSON.parse(profileStr)
     }
-    
+    this.state = {
+      profile : this.profile
+    }
+    this.signedIn = this.signedIn.bind(this);
   }
+
+  signedIn(p : any){
+    this.setState({
+      profile : p
+    })
+
+  }
+
   render(){
 
-    let landing = (!this.profile || !this.profile.googleId)? <Login/> : <Main profile={this.profile}/>
+    let landing = (!this.state.profile || !this.state.profile.googleId)? <Login back={this.signedIn}/> : <Main profile={this.state.profile}/>
     return (<IonApp>{landing}</IonApp>);
   }
 }
