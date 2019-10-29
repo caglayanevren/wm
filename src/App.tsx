@@ -26,6 +26,7 @@ import Main from './pages/Main';
 import Login from './pages/Login';
 import Config from './pages/Config';
 
+
 class App  extends React.Component<any,any>{
   profile : any;
   constructor(props : any){
@@ -47,7 +48,7 @@ class App  extends React.Component<any,any>{
   }
   render(){
 
-    let landing = this.profile.googleId === null ? <Login/> : <Main profile={this.profile}/>
+    let landing = (!this.profile || !this.profile.googleId)? <Login/> : <Main profile={this.profile}/>
     return (<IonApp>{landing}</IonApp>);
   }
 }

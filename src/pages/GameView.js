@@ -129,7 +129,7 @@ export class GameView extends Component {
                 if (cell != null && cell.val != null){   
         
                     cells.push(
-                        <Block
+                        <Block view={true}
                         bonus = {this.boardConfig[r][c]}
                         key={"" + r + c} value={cell.val} line={r} col={c}  size={this.state.size} />
                     )

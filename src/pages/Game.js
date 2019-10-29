@@ -616,13 +616,20 @@ export class Game extends Component {
                                     <div style={{textAlign:"center"}}><IonButton onClick={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
                         </IonPopover>
 
-               
-                    <IonPopover
-                        isOpen={this.state.showNetworkError}
-                        onDidDismiss={e => this.setState({showNetworkError:false})}>
-                        <p style={{textAlign:"center",fontFamily:"Roboto"}}>Sunucu erişimi sağlanamıyor, Internet bağlantınızı kontrol ediniz</p>
-                        <div style={{textAlign:"center",width:"100%"}}><IonButton color="primary" onclick={e=>this.setState({showNetworkError:false})} onTouchStart={e=>this.setState({showNetworkError:false})}>Tamam</IonButton></div>
-                    </IonPopover>
+                        <IonAlert isOpen={this.state.this.state.showNetworkError} backdropDismiss={true}
+                            onDidDismiss={() => this.setState({showNetworkError : false})}
+                            header={'Bir sorun var'}
+                            message={'Sunucu ile bağlantı kurulamıyor, Internet erişiminiz kontrol ediniz'}
+                            buttons={[
+                                {
+                                text: 'Tamam',
+                                role: 'cancel',
+                                cssClass: 'primary',
+                                handler: blah => {
+                                }
+                                },
+                            ]}
+                            />               
                 <div style={{width:"100%",textAlign:"center"}}>
                 
                 <div><Score countdown={this.state.countdown} longest={this.state.longest} highestScore={this.state.highestScore} score={this.state.score} percentage={this.state.clearedLetterCount} width={(this.state.size * 10 - 10) + "px"}/></div>

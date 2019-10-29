@@ -1,0 +1,14 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,900);
+
+:root {
+  --ion-safe-area-top: 0px;
+--ion-safe-area-bottom: 0px;
+--ion-color-gold:linear-gradient(-40deg,#bea358e0,#fae1a6ec);
+
+}
+.ion-color-gold {
+--ion-color-base: var(--ion-color-gold) !important;
+}	
+ion-content{
+  --background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(209, 193, 193) 65%, rgb(214, 169, 139) 100%) fixed;
+}

@@ -27,7 +27,15 @@ export class Main extends Component {
         this.gameList = storage.getGames().reverse();
         this.gameList.splice(5,this.gameList.length - 5)
         this.openGameView = this.openGameView.bind(this);
+        this.openHomeView = this.openHomeView.bind(this);
     }
+
+    openHomeView(){
+      this.setState({
+        pageIndex:0
+      })
+    }
+
     openGameView(i){
 
       this.setState({
@@ -44,10 +52,10 @@ export class Main extends Component {
       }
     }
     renderGame(){
-      return(<IonContent scrollY={false} fullscreen={true}><Game/></IonContent>)
+      return(<IonContent scrollY={false} fullscreen={true}><Game back={this.openHomeView}/></IonContent>)
     }
     renderGameView(){
-      return(<IonContent scrollY={false} fullscreen={true}><GameView state={this.state.selectedGame}/></IonContent>)
+      return(<IonContent scrollY={false} fullscreen={true}><GameView back={this.openHomeView} state={this.state.selectedGame}/></IonContent>)
     }
     renderMain(){
         let gameCards = [];
