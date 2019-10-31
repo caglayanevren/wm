@@ -1,0 +1,17 @@
+<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+
+ <title/>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <circle fill="#d0d7df" id="svg_1" r="23" cy="24" cx="24" class="cls-1"/>
+  <circle fill="#a4b0c0" id="svg_2" r="18" cy="24" cx="24" class="cls-2"/>
+  <path fill="#474c54" id="svg_3" d="m24,0a24,24 0 1 0 24,24a24.028,24.028 0 0 0 -24,-24zm0,46a22,22 0 1 1 22,-22a22.025,22.025 0 0 1 -22,22z" class="cls-3"/>
+  <path fill="#474c54" id="svg_5" d="m42,23a1,1 0 0 0 -1,1a17.019,17.019 0 0 1 -17,17a1,1 0 0 0 0,2a19.021,19.021 0 0 0 19,-19a1,1 0 0 0 -1,-1z" class="cls-3"/>
+  <path fill="#474c54" id="svg_6" d="m25,6a1,1 0 0 0 -1,-1a19.021,19.021 0 0 0 -19,19a1,1 0 0 0 2,0a17.019,17.019 0 0 1 17,-17a1,1 0 0 0 1,-1z" class="cls-3"/>
+  <text style="cursor: text;" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="12" id="svg_8" y="28.139285" x="13.330415" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="null" fill="#000000">Hx3</text>
+ </g>
+</svg>

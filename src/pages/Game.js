@@ -80,6 +80,7 @@ export class Game extends Component {
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onAnimationEnd = this.onAnimationEnd.bind(this);
         this.onOutAnimationEnd = this.onOutAnimationEnd.bind(this);
+        this.onBonusAnimationEnd = this.onBonusAnimationEnd.bind(this)
         this.rotate = this.rotate.bind(this);
 
         for (var i = 0; i < Config.alphabet.length; ++i){
@@ -279,18 +280,33 @@ export class Game extends Component {
         
     }
 
-
+    bonus = [];
     onTouchEnd(){
+       
         if (this.animationCount === 0){
             let word = "";
             let score = 0;
             if (this.touchList.length > 0){
+                let wx = 1;
                 for(const [,t] of this.touchList.entries()){
                     let ch = Config.alphabet[this.board[t.l][t.c].val];
                     word += ch;
-                    score += Config.scores[this.board[t.l][t.c].val];
+                    let lx = 1;
+
+                    if (this.boardConfig[t.l][t.c] != ""){
+                        this.bonus.push(this.boardConfig[t.l][t.c]);
+                    }
+                    switch(this.bonus){
+                        case "tw" : wx *= 3; break;
+                        case "dw" : wx *= 2; break;
+                        case "tl" : lx = 3; break;
+                        case "dl" : lx = 2; break;
+                        default : lx = 1;
+                    } 
+                    score += lx * Config.scores[this.board[t.l][t.c].val];
                 } 
-                console.log("WORD : " + word);
+                score *= wx;
+                console.log("WORD : " + word + "  score " + score);
                 for(var i = 0; i < this.touchList.length; ++i){
                     this.board[this.touchList[i].l][this.touchList[i].c].touched = "";
                 }
@@ -324,7 +340,7 @@ export class Game extends Component {
                         //}
                         this.wordList.push({word:obj.data.id,desc:obj.data.desc,score : score});
       
-                        for(const [,t] of this.touchList.entries()){
+                        for(const [ind,t] of this.touchList.entries()){
                             let rule =  '@keyframes out' + t.l + '' + t.c + '{\
                                 0%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + (t.l * this.state.size + 1)  + 'px;}\
                                 25%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 1) * this.state.size + 1)  + 'px; opacity:0.6;}\
@@ -340,8 +356,22 @@ export class Game extends Component {
                                 animation-duration : 1s;\
                                 animation-timing-function : linear;\
                                 animation-fill-mode : forwards;\
-                            }"; 
+                            }";
                             document.styleSheets[0].insertRule(rule);
+                            if (ind === 0 && this.bonus.length > 0){
+                                
+                                rule =  '@keyframes bonusOut{\
+                                    0%  {visibility:visible;z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + (t.l * this.state.size + 1)  + 'px; }\
+                                    20%  {transform:rotateY(20deg);z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l - 1) * this.state.size + 1)  + 'px; opacity:0.9;}\
+                                    40%  {transform:rotateY(55deg);z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l - 2) * this.state.size + 2)  + 'px; opacity:0.7;}\
+                                    60% {transform:rotateY(180deg);z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l - 4) * this.state.size + 1) + 'px;opacity:0.5}\
+                                    100% {transform:rotateY(360deg);z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l - 5) * this.state.size + 1) + 'px;opacity:0.1}\
+                                }';
+                                document.styleSheets[1].insertRule(rule);
+                            }
+
+                           
+
                             this.board[t.l][t.c] = null;
                                                     
                         }
@@ -497,10 +527,10 @@ export class Game extends Component {
     }
 
     renderBonus(r,c){
-        let tw = <div style={{display:"table-cell",verticalAlign:"middle"}}>Sx3</div>
-        let dw = <div style={{display:"table-cell",verticalAlign:"middle"}}>Sx2</div>
-        let tl = <div style={{display:"table-cell",verticalAlign:"middle"}}>Hx3</div>
-        let dl = <div style={{display:"table-cell",verticalAlign:"middle"}}>Hx2</div>
+        let tw = <div style={{display:"table-cell",verticalAlign:"middle",fontSize:".7em"}}>Sx3</div>
+        let dw = <div style={{display:"table-cell",verticalAlign:"middle",fontSize:".7em"}}>Sx2</div>
+        let tl = <div style={{display:"table-cell",verticalAlign:"middle",fontSize:".7em"}}>Hx3</div>
+        let dl = <div style={{display:"table-cell",verticalAlign:"middle",fontSize:".7em"}}>Hx2</div>
 
         switch(this.boardConfig[r][c]) {
             case "tw" : return tw;
@@ -514,18 +544,38 @@ export class Game extends Component {
        
         const cells = [];
         const outs = [];
+        let bonusAnim = [];
         let rotateBtn = null;
 
         if (this.state.clearedLetterCount === 0 && this.status === 0){
-            rotateBtn = <RotateBtn style={{zIndex:1000,top:"-22px"}} rotate={this.rotate}/>;
+            rotateBtn = <RotateBtn style={{zIndex:1000,top:"-22px"}} rotate={this.rotate}/>; 
         }
         for (const [i,o] of this.state.outList.entries()) {
             outs.push(
                 <div key={"out" + i} onAnimationEnd={(e)=>this.onOutAnimationEnd()}
-                 className={"block " + o.anim} style={{zIndex:-100,width : (this.state.size - 4) + "px", height: (this.state.size - 4) + "px",left: o.c * this.state.size + 1,top : o.l * this.state.size + 1}}>
+                 className={"block " + o.anim} style={{zIndex:-100,width : (this.state.size - 4) + "px", height: (this.state.size - 4) + "px",left: o.c * this.state.size + 1,top : o.l * this.state.size + 1}}>                   
                     <span className="letter" style={{fontSize:this.state.size * 0.55}}>{Config.alphabet[o.val]}</span> <span className="number" style={{fontSize:this.state.size * 0.16}}>{Config.scores[o.value]}</span>
+                    
                 </div>
+               
             )
+        }
+        for(const[i,b] of this.bonus.entries()){
+            let svg = "sx3.svg";
+            switch(b){
+                case "tw" : svg = "sx3.svg";break;
+                case "dw" : svg = "sx2.svg";break;
+                case "tl" : svg = "hx3.svg";break;
+                case "dl" : svg = "hx2.svg";break;
+                default : svg = "";
+                
+            }
+            if (i === this.bonus.length -1){
+                bonusAnim.push(<div key={i} className="bonusAnim" onAnimationEnd={this.onBonusAnimationEnd} style={{visibility:"hidden",animationDelay: (i + 1) * 0.5 + "s"}}><img src={"assets/" + svg} style={{opacity:"inherit"}}></img></div>)
+            }
+            else{
+                bonusAnim.push(<div key={i} className="bonusAnim" style={{visibility:"hidden",animationDelay: (i + 1) * 0.5 + "s"}}><img src={"assets/" + svg} style={{opacity:"inherit"}}></img></div>)                
+            }
         }
         for (const [r, row] of this.state.board.entries()) {
             for (const [c,cell] of row.entries()) {
@@ -616,7 +666,7 @@ export class Game extends Component {
                                     <div style={{textAlign:"center"}}><IonButton onClick={e=>this.setState({showEndGame : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
                         </IonPopover>
 
-                        <IonAlert isOpen={this.state.this.state.showNetworkError} backdropDismiss={true}
+                        <IonAlert isOpen={this.state.showNetworkError} backdropDismiss={true}
                             onDidDismiss={() => this.setState({showNetworkError : false})}
                             header={'Bir sorun var'}
                             message={'Sunucu ile bağlantı kurulamıyor, Internet erişiminiz kontrol ediniz'}
@@ -640,8 +690,8 @@ export class Game extends Component {
                     <div id="box-table-b" style={{display:"inline-block",width:this.state.size * 10,height : this.state.size * 10,textAlign:"center !important"}} >
                     {rotateBtn}
                         {cells}   
-                        {outs}                     
-
+                        {outs}   
+                        {bonusAnim}                  
                     </div>
                 </div>
                 <div>
@@ -716,6 +766,8 @@ export class Game extends Component {
         }
     }
     onOutAnimationEnd(){
+
+        
         console.log("OUt animation ended....");
         for(const[,o] of this.state.outList.entries()){
             document.styleSheets[0].deleteRule(0);
@@ -724,7 +776,13 @@ export class Game extends Component {
         this.setState({outList:[]});
 
     }
-
+    onBonusAnimationEnd(){
+        if (this.bonus.length > 0){
+            this.bonus = [];
+            console.log(document.styleSheets[1])
+            document.styleSheets[1].deleteRule(0);
+        }
+    }
     
     calculateScore(){
 
