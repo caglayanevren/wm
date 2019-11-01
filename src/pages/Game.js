@@ -71,7 +71,8 @@ export class Game extends Component {
             showNetworkError : false,
             highestScore : {w:".",score:0},
             longest : {w:".",score:0},
-            countdown : 300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 )
+            countdown : 300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 ),
+            bonus:[]
         };
         
         this.onTouchStart = this.onTouchStart.bind(this);
@@ -280,9 +281,9 @@ export class Game extends Component {
         
     }
 
-    bonus = [];
+   
     onTouchEnd(){
-       
+        let  bonus = [];
         if (this.animationCount === 0){
             let word = "";
             let score = 0;
@@ -294,9 +295,9 @@ export class Game extends Component {
                     let lx = 1;
 
                     if (this.boardConfig[t.l][t.c] != ""){
-                        this.bonus.push(this.boardConfig[t.l][t.c]);
+                        bonus.push(this.boardConfig[t.l][t.c]);
                     }
-                    switch(this.bonus){
+                    switch(this.boardConfig[t.l][t.c]){
                         case "tw" : wx *= 3; break;
                         case "dw" : wx *= 2; break;
                         case "tl" : lx = 3; break;
@@ -358,15 +359,25 @@ export class Game extends Component {
                                 animation-fill-mode : forwards;\
                             }";
                             document.styleSheets[0].insertRule(rule);
-                            if (ind === 0 && this.bonus.length > 0){
-                                
-                                rule =  '@keyframes bonusOut{\
-                                    0%  {visibility:visible;z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + (t.l * this.state.size + 1)  + 'px; }\
-                                    20%  {transform:rotateY(20deg);z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l - 1) * this.state.size + 1)  + 'px; opacity:0.9;}\
-                                    40%  {transform:rotateY(55deg);z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l - 2) * this.state.size + 2)  + 'px; opacity:0.7;}\
-                                    60% {transform:rotateY(180deg);z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l - 4) * this.state.size + 1) + 'px;opacity:0.5}\
-                                    100% {transform:rotateY(360deg);z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l - 5) * this.state.size + 1) + 'px;opacity:0.1}\
-                                }';
+                            if (ind === 0 && bonus.length > 0){
+                                if (t.c > 4){
+                                    rule =  '@keyframes bonusOut{\
+                                        0%  {z-index:100;visibility:visible;left :' + ((t.c) * this.state.size) + 'px; top :' + ((t.l) * this.state.size )  + 'px; opacity:0.9 }\
+                                        40%  {transform:rotateY(0deg);left :' + ((t.c - 1) * this.state.size - 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
+                                        60%  {transform:rotateY(360deg);left :' + ((t.c - 1) * this.state.size - 14) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
+                                        80% {transform:rotateY(0deg);left :' + ((t.c - 1) * this.state.size - 18) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
+                                        100% {transform:rotateY(360deg);left :' + ((t.c - 1) * this.state.size - 22) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
+                                    }'
+                                }
+                                else{
+                                    rule =  '@keyframes bonusOut{\
+                                        0%  {z-index:100;visibility:visible;left :' + ((t.c) * this.state.size) + 'px; top :' + ((t.l) * this.state.size )  + 'px; opacity:0.9 }\
+                                        40%  {transform:rotateY(0deg);left :' + ((t.c + 1) * this.state.size + 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
+                                        60%  {transform:rotateY(360deg);left :' + ((t.c + 1) * this.state.size + 14) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
+                                        80% {transform:rotateY(0deg);left :' + ((t.c + 1) * this.state.size + 18) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
+                                        100% {transform:rotateY(360deg);left :' + ((t.c + 1) * this.state.size + 22) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
+                                    }'
+                                }
                                 document.styleSheets[1].insertRule(rule);
                             }
 
@@ -375,7 +386,7 @@ export class Game extends Component {
                             this.board[t.l][t.c] = null;
                                                     
                         }
-                        this.setState({outList:outList});
+                        this.setState({outList:outList,bonus:bonus});
                         this.score += score;
                         if (score > this.highestScore.score || (score === this.highestScore.score && obj.data.id.length > this.highestScore.w.length)){
                             this.highestScore = {w:obj.data.id,score:score};
@@ -560,7 +571,7 @@ export class Game extends Component {
                
             )
         }
-        for(const[i,b] of this.bonus.entries()){
+        for(const[i,b] of this.state.bonus.entries()){
             let svg = "sx3.svg";
             switch(b){
                 case "tw" : svg = "sx3.svg";break;
@@ -570,11 +581,11 @@ export class Game extends Component {
                 default : svg = "";
                 
             }
-            if (i === this.bonus.length -1){
-                bonusAnim.push(<div key={i} className="bonusAnim" onAnimationEnd={this.onBonusAnimationEnd} style={{visibility:"hidden",animationDelay: (i + 1) * 0.5 + "s"}}><img src={"assets/" + svg} style={{opacity:"inherit"}}></img></div>)
+            if (i === this.state.bonus.length - 1){
+                bonusAnim.push(<div key={i} className="bonusAnim" onAnimationEnd={this.onBonusAnimationEnd} style={{visibility:"hidden",animationDelay: (i + 1) * 0.2 + "s"}}><img src={"assets/" + svg} style={{opacity:"inherit"}}></img></div>)
             }
             else{
-                bonusAnim.push(<div key={i} className="bonusAnim" style={{visibility:"hidden",animationDelay: (i + 1) * 0.5 + "s"}}><img src={"assets/" + svg} style={{opacity:"inherit"}}></img></div>)                
+                bonusAnim.push(<div key={i} className="bonusAnim" style={{visibility:"hidden",animationDelay: (i + 1) * 0.2 + "s"}}><img src={"assets/" + svg} style={{opacity:"inherit"}}></img></div>)                
             }
         }
         for (const [r, row] of this.state.board.entries()) {
@@ -777,11 +788,12 @@ export class Game extends Component {
 
     }
     onBonusAnimationEnd(){
-        if (this.bonus.length > 0){
-            this.bonus = [];
+        if (this.state.bonus.length > 0){
+            
             console.log(document.styleSheets[1])
             document.styleSheets[1].deleteRule(0);
         }
+        this.setState({bonus:[]});
     }
     
     calculateScore(){
