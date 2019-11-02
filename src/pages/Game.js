@@ -25,7 +25,7 @@ export class Game extends Component {
     touchList = [];
     score = 0;
     clearedLetterCount = 0;
-    wordList = [{word:".",score:0,desc:"."}];
+    wordList = [];
     status = 1;
     highestScore = {w:".",score:0};
     longest = {w:".",score:0};
@@ -42,16 +42,16 @@ export class Game extends Component {
             [null,null,null,null,null,null,null,null,null,null],
             [null,null,null,null,null,null,null,null,null,null],
             [null,null,null,null,null,null,null,null,null,null]];
-    boardConfig = [["tw","","","dl","","","dl","","","tw"],
-                   ["","","","","","","","","dw",""],
-                   ["","","","dw","","dl","","dw","",""],
-                   ["","tl","","","","","","","tl",""],
-                   ["","","","",4,"","","","",""],
-                   ["","tl","","","","dl","","","tl",""],
+    boardConfig = [["","","","","","","","","","dw"],
+                   ["","dw","","","","","","","",""],
+                   ["","","","","","tw","","","",""],
                    ["","","","","","","","","",""],
-                   ["","","dw","","","dl","","dw","",""],
+                   ["","","","tl","","","","","",""],
+                   ["tw","","","","","","","","","tw"],
                    ["","","","","","","","","",""],
-                   ["tw","","","dl","","","dl","","","tw"]]
+                   ["","","","","","","tl","","",""],
+                   ["","dw","","","","","","","dw",""],
+                   ["","","","dl","","","dl","","",""]]
     rotatedBoard = null;    
     storage = new Storage();
     constructor(props) {
