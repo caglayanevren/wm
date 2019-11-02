@@ -23,6 +23,7 @@ export class Login extends Component {
     response(r){
         console.log("logged in " + JSON.stringify(r.profileObj))
         r.profileObj.rating = 0;
+        r.profileObj.numberOfGames = 0;
         localStorage.setItem("profile",JSON.stringify(r.profileObj));
         this.props.back(r.profileObj);
     }
@@ -45,7 +46,7 @@ export class Login extends Component {
                 clientId="152418384992-7mk4vo6o39j3q14uf4d1p8jab73qdekf.apps.googleusercontent.com"
             buttonText="Login"
             onSuccess={this.response}
-            onFailure={this.failure}></GoogleLogin>                
+            onFailure={this.failure}  cookiePolicy={'single_host_origin'}></GoogleLogin>                
             </ion-col>
             <ion-col size="1"/>
             </ion-row>

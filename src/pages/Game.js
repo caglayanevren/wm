@@ -99,6 +99,7 @@ export class Game extends Component {
 
                 clearInterval(this.clock);
                 this.storage.saveGameState(this.state);
+                this.calculateRating();
                 return;
             }
             this.setState({
@@ -223,7 +224,7 @@ export class Game extends Component {
             this.gravity();
         },10);
 
-       
+        
        // this.setState({
        //     score : this.score,clearedLetterCount : this.clearedLetterCount
         //})
@@ -554,6 +555,14 @@ export class Game extends Component {
             default : return "";
         }
     }
+    finish(hide){
+        this.setState({showAlert1 : false,showAlert2:false})               
+        clearInterval(this.clock);
+        this.status = 2;
+        this.storage.saveGameState(this.state);
+        this.calculateRating();
+
+    }
     render() {
        
         const cells = [];
@@ -616,8 +625,8 @@ export class Game extends Component {
 <IonHeader>
       <IonToolbar color="gold">
         <IonButtons slot="secondary">
-          <IonButton  fill="outline">
-            <IonIcon slot="icon-only" icon={home}/>
+          <IonButton  fill="outline" onTouchEnd={()=>{if (this.status === 2) {this.props.back()} else this.setState({showAlert2:true})}} onClick={()=>{if (this.status === 2) this.props.back(); else this.setState({showAlert2:true})}}>
+            <IonIcon slot="icon-only" icon={home} />
           </IonButton>
         </IonButtons>
 
@@ -650,15 +659,36 @@ export class Game extends Component {
             {
               text: 'Tamam',
               handler: () => {
-               
-                clearInterval(this.clock);
-                this.status = 2;
-                this.storage.saveGameState(this.state);
-                this.setState({showAlert1 : false})
+                this.finish();
               }
             }
-          ]}
-        />                    
+          ]}/>                    
+
+<IonAlert
+          isOpen={this.state.showAlert2}
+          backdropDismiss={false}
+          onDidDismiss={() => this.setState({showAlert2 : false})}
+          header={'Onaylayınız'}
+          message={'Oyununuz sonlandırılacaktır,Ana Sayfaya dönmek istiyor musunuz ? '}
+          buttons={[
+            {
+              text: 'İptal',
+              role: 'cancel',
+              cssClass: 'primary',
+              handler: blah => {
+                console.log('Confirm Cancel: blah');
+              }
+            },
+            {
+              text: 'Tamam',
+              handler: () => {
+               
+                this.finish();
+                setTimeout(()=>this.props.back(),200);
+                
+              }
+            }
+          ]}/>                    
 
                     <IonPopover
                         isOpen={this.state.showEndGame}
@@ -799,7 +829,21 @@ export class Game extends Component {
         this.setState({bonus:[]});
     }
     
-    calculateScore(){
+    calculateRating(){
+        let profile = JSON.parse(localStorage.getItem("profile"));
+        let rating = profile.rating;
+        let num = profile.numberOfGames;
+        if (num === 0){
+            num++;
+            rating = Math.ceil(this.state.score * this.state.clearedLetterCount / 100);
+        }
+        else{
+            rating = Math.ceil(((rating * num) + (this.state.score * this.state.clearedLetterCount / 100)) / (num + 1));
+            num++;
+        }
+        profile.rating = rating;
+        profile.numberOfGames = num;
+        localStorage.setItem("profile",JSON.stringify(profile));
 
     }
 

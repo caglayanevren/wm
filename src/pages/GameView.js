@@ -143,7 +143,7 @@ export class GameView extends Component {
 <IonHeader>
       <IonToolbar color="gold">
         <IonButtons slot="secondary">
-          <IonButton  fill="outline">
+          <IonButton  fill="outline" onClick={this.props.back}>
             <IonIcon slot="icon-only" icon={home}/>
           </IonButton>
         </IonButtons>

@@ -33,6 +33,7 @@ export class Storage{
         return -1
     }
     getGames(){
+        this.gameList = JSON.parse(localStorage.getItem("gameList"));
         return this.gameList;
     }
 }

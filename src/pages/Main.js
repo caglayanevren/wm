@@ -16,24 +16,32 @@ import {add} from 'ionicons/icons'
 export class Main extends Component {
     gameList = []; 
     selectedGame = null;   
+    storage = null;
     constructor(props) {
         super(props);
-        this.state = {
-            showStats : false,
-            pageIndex : 0,
-            selectedGame : null
-        }
-        let storage = new Storage();
-        this.gameList = storage.getGames().reverse();
+        console.log("MAIN VIEW CREATED");
+        this.storage = new Storage();
+        this.gameList = this.storage.getGames().reverse();
         this.gameList.splice(5,this.gameList.length - 6)
         this.openGameView = this.openGameView.bind(this);
         this.openHomeView = this.openHomeView.bind(this);
+        this.state = {
+          showStats : false,
+          pageIndex : 0,
+          selectedGame : null,
+          gameList : this.gameList
+      }
+
     }
 
     openHomeView(){
+      this.gameList = this.storage.getGames().reverse();
+      this.gameList.splice(5,this.gameList.length - 6)
+
       this.setState({
-        pageIndex:0
-      })
+        pageIndex:0,
+        gameList : this.gameList
+      });
     }
 
     openGameView(i){
@@ -59,12 +67,12 @@ export class Main extends Component {
     }
     renderMain(){
         let gameCards = [];
-        let options = {  year: 'numeric', month: 'long', day: 'numeric' };
+        let options = {  year: 'numeric', month: 'long', day: 'numeric',hour:'numeric',minute:'numeric' };
         const slideOpts = {
             initialSlide: 1,
             speed: 400,
           };        
-        for(const[i,g] of this.gameList.entries()){
+        for(const[i,g] of this.state.gameList.entries()){
             gameCards.push(
                 <ion-col size="6" key={i}>
                 <div className="wrapper">
