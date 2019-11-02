@@ -1,7 +1,7 @@
 import React, {Component,} from 'react';
 
 
-import { IonAvatar,IonPopover,IonTitle,IonButton,IonIcon, IonContent,IonItem,IonButtons, IonHeader,IonToolbar} from '@ionic/react';
+import { IonAvatar,IonList,IonLabel,IonItemOption,IonItemOptions,IonItemSliding,IonPopover,IonTitle,IonButton,IonIcon, IonContent,IonItem,IonButtons, IonHeader,IonToolbar} from '@ionic/react';
 import Storage from '../service/Storage';
 import { GoogleLogin } from 'react-google-login';
 import Game from './Game';
@@ -21,7 +21,7 @@ export class Main extends Component {
         super(props);
         console.log("MAIN VIEW CREATED");
         this.storage = new Storage();
-        this.gameList = this.storage.getGames().reverse();
+        this.gameList = this.storage.getGames();
         this.gameList.splice(5,this.gameList.length - 6)
         this.openGameView = this.openGameView.bind(this);
         this.openHomeView = this.openHomeView.bind(this);
@@ -35,7 +35,7 @@ export class Main extends Component {
     }
 
     openHomeView(){
-      this.gameList = this.storage.getGames().reverse();
+      this.gameList = this.storage.getGames();
       this.gameList.splice(5,this.gameList.length - 6)
 
       this.setState({
@@ -67,6 +67,7 @@ export class Main extends Component {
     }
     renderMain(){
         let gameCards = [];
+        let classes =["clash-card__unit-stats--goblin","clash-card__unit-stats--barbarian","clash-card__unit-stats--giant","clash-card__unit-stats--archer","clash-card__unit-stats--wizard"];
         let options = {  year: 'numeric', month: 'long', day: 'numeric',hour:'numeric',minute:'numeric' };
         const slideOpts = {
             initialSlide: 1,
@@ -74,36 +75,29 @@ export class Main extends Component {
           };        
         for(const[i,g] of this.state.gameList.entries()){
             gameCards.push(
-                <ion-col size="6" key={i}>
-                <div className="wrapper">
-                  <div className="clash-card barbarian">
-              
-                    <div className="clash-card__level clash-card__level--barbarian">{new Date(g.startDate).toLocaleDateString('tr-TR', options)}</div>
+              <ion-card button key={i} onClick={()=>this.openGameView(i)}>
+              <ion-card-header>
+                <ion-card-subtitle><span style={{fontSize:"1.4em"}}>{new Date(g.startDate).toLocaleDateString('tr-TR', options)}</span></ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+              <div className={"clash-card__unit-stats "  + classes[i] + " clearfix"}>
+                            <div className="one-third">
+                              <div className="stat">{g.clearedLetterCount}%</div>
+                              <div className="stat-value">Yüzde</div>
+                            </div>
+                            <div className="one-third">
+                              <div className="stat">{g.score}</div>
+                              <div className="stat-value">Puan</div>
+                            </div>              
+                            <div className="one-third no-border">
+                              <div className="stat">{Math.floor(g.score * g.clearedLetterCount / 100)}</div>
+                              <div className="stat-value">Seviye</div>
+                            </div>
+                          </div>
+              </ion-card-content>
+          </ion-card>  
 
-                    <div className="clash-card__unit-description">
-                    <IonButton shape="round" fill="outline" size="small" color="medium" onClick={()=>this.openGameView(i)}>
-                        Göz at
-                    </IonButton>
-                    </div>
-              
-                    <div className="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
-                      <div className="one-third">
-                        <div className="stat">{g.clearedLetterCount}%</div>
-                        <div className="stat-value">Yüzde</div>
-                      </div>
-                      <div className="one-third">
-                        <div className="stat">{g.score}</div>
-                        <div className="stat-value">Puan</div>
-                      </div>              
-                      <div className="one-third no-border">
-                        <div className="stat">{g.score}</div>
-                        <div className="stat-value">Puan</div>
-                      </div>
-                    </div>
-              
-                  </div> 
-                </div>
-                </ion-col>
+                
             )
         }
 
@@ -111,15 +105,17 @@ export class Main extends Component {
           <IonPopover isOpen={this.state.showStats} onDidDismiss={e => this.setState({showStats:false})}>
                                           <IonItem>
                                               <IonIcon icon={stats} slot="start" />
-                                              <span style={{fontWeight:500}}>Oyun Sonu</span>
+                                              <span style={{fontWeight:500}}>İstatistikler</span>
                                               
                                           </IonItem>
 
                                           
-                                              <div style={{width:"100%",padding:"10px"}}>
-                                              </div>
+                                          <div style={{width:"100%",padding:"10px"}}>
+                                        <div style={{display:"inline-block",color:"gray",width:"60%"}}>Toplam Oyun</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.props.profile.numberOfGames}</div><br/>
+                                        <div style={{display:"inline-block",color:"gray",width:"60%"}}>Seviye</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.props.profile.rating}</div><br/>
                                               <br/>
                                               <div style={{textAlign:"center"}}><IonButton onClick={e=>this.setState({showStats : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
+                                        </div>
                                   </IonPopover>
 
 
@@ -141,11 +137,14 @@ export class Main extends Component {
               </IonToolbar>
 
               </IonHeader>
+                {gameCards}            
+
               <ion-grid>
                 <ion-row>
-                  {gameCards}
+                  
                 </ion-row>
               </ion-grid>
+              
               <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
       <IonIcon icon={add} onclick={()=>this.setState({pageIndex:1})}></IonIcon>

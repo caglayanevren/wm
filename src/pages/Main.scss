@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,900);
 
-$border-radius-size: 9px;
+$border-radius-size: 0px;
 $barbarian: #EC9B3B;
 $archer: #EE5487;
 $giant: #F6901A;
@@ -187,8 +187,7 @@ body {
   font-size: .7em;
   color: white;
   font-weight: 500;
-  border-bottom-left-radius: $border-radius-size;
-  border-bottom-right-radius: $border-radius-size;
+  border-radius: 5px;
   
   .one-third {
     width: 33%;
@@ -205,14 +204,15 @@ body {
   
   .stat {
     position: relative;
-    font-size: 1em;
-    margin-bottom: 10px;
+    font-size: 1.3em;
+    margin-bottom: 6px;
+    text-align: center;
   }
   
   .stat-value {
-
+    text-align: center;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 1.4em;
   }
 
   .no-border {
@@ -244,6 +244,7 @@ body {
 --ion-safe-area-bottom: 0px;
 --ion-color-gold:linear-gradient(-40deg,#bea358e0,#fae1a6ec);
 
+
 }
 .ion-color-gold {
 --ion-color-base: var(--ion-color-gold) !important;
@@ -253,4 +254,13 @@ ion-toolbar{
 }
 ion-content{
   /*--background :  #cf8703 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 100 100'%3E%3Crect x='0' y='0' width='68' height='68' fill-opacity='0.44' fill='%23de9019'/%3E%3C/svg%3E");*/
+}
+.card-content-ios {
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+  /* padding-top: 20px; */
+  padding-bottom: 2px !important;
+  padding-top:2px;
+  /* font-size: 16px; */
+  line-height: 1.2 !important;
 }
