@@ -15,17 +15,17 @@ export class Block extends Component {
         let color = "";
         let lx = 1;
         switch(this.props.bonus) {
-            case "tw" : bonus =  "Sx3"; color = "gray";  break;
-            case "dw" : bonus =  "Sx2"; color = "gray"; break;
-            case "tl" : bonus =  ""; lx = 3; color = "darkgray"; break;
-            case "dl" : bonus =  ""; lx = 2; color="darkgray"; break;
+            case "tw" : bonus =  "Sx3"; color = "darkgreen";  break;
+            case "dw" : bonus =  "Sx2"; color = "darkgreen"; break;
+            case "tl" : bonus =  "Hx3"; lx = 3; color = "#E0E0E0"; break;
+            case "dl" : bonus =  "Hx2"; lx = 2; color="#E0E0E0"; break;
             default : bonus = ""
         }
         if (this.props.view){
             return(
             <div  className={className} style={{width : (this.props.size - 2) + "px", height: (this.props.size - 2) + "px",left: this.props.col * this.props.size + 1 ,top : this.props.line * this.props.size + 1 }}>
                <span className="letter" style={{fontSize:this.props.size * 0.7,color:color}}>{Config.alphabet[this.props.value]}</span> <span className="number" style={{fontSize:this.props.size * 0.2}}>{lx * Config.scores[this.props.value]}</span>
-               <span className="bonus" style={{fontSize:"0.5em",fontWeight:550,color:color}}>{bonus}</span>
+               <span className="bonus" style={{fontSize:"0.5em",fontWeight:500,color:color}}>{bonus}</span>
            </div>)
         }
         return (
@@ -36,8 +36,8 @@ export class Block extends Component {
                  onMouseMove={(e)=>this.props.onMouseMove(e,this.props.line,this.props.col)} 
                  onMouseDown={(e)=>this.props.onTouchStart(e,this.props.line,this.props.col)} 
                  className={className} style={{width : (this.props.size - 2) + "px", height: (this.props.size - 2) + "px",left: this.props.col * this.props.size + 1 ,top : this.props.line * this.props.size + 1 }}>
-                    <span className="letter" style={{fontSize:this.props.size * 0.7,color:color}}>{Config.alphabet[this.props.value]}</span> <span className="number" style={{fontSize:this.props.size * 0.2}}>{Config.scores[this.props.value] * lx}</span>
-                    <span className="bonus" style={{fontSize:"0.5em",fontWeight:550,color:color}}>{bonus}</span>
+                    <span className="letter" style={{fontSize:this.props.size * 0.7,color:color}}>{Config.alphabet[this.props.value]}</span> <span className="number" style={{fontSize:this.props.size * 0.2,color : (lx > 1 ? "white" : "black")}}>{Config.scores[this.props.value] * lx}</span>
+                    <span className="bonus" style={{fontSize:"0.6em",fontWeight:450,color:color}}>{bonus}</span>
                 </div>
         )
     }

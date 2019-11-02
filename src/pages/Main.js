@@ -25,7 +25,7 @@ export class Main extends Component {
         }
         let storage = new Storage();
         this.gameList = storage.getGames().reverse();
-        this.gameList.splice(5,this.gameList.length - 5)
+        this.gameList.splice(5,this.gameList.length - 6)
         this.openGameView = this.openGameView.bind(this);
         this.openHomeView = this.openHomeView.bind(this);
     }

@@ -496,6 +496,9 @@ export class Game extends Component {
                 //console.log("XY " + c + " " + l)
                
             }
+            if (l > 9 || c > 9){
+                return
+            }
             var last = this.touchList[this.touchList.length - 1];
             let prev = this.isInTouchList({l:l,c:c});
             if (prev > -1){
