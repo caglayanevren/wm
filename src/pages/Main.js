@@ -29,7 +29,8 @@ export class Main extends Component {
           showStats : false,
           pageIndex : 0,
           selectedGame : null,
-          gameList : this.gameList
+          gameList : this.gameList,
+          profile : this.props.profile
       }
 
     }
@@ -48,7 +49,8 @@ export class Main extends Component {
 
       this.setState({
         pageIndex : 2,
-        selectedGame : this.gameList[i]
+        selectedGame : this.gameList[i],
+        profile : this.props.profile
       })
     }
     render(){
@@ -111,8 +113,8 @@ export class Main extends Component {
 
                                           
                                           <div style={{width:"100%",padding:"10px"}}>
-                                        <div style={{display:"inline-block",color:"gray",width:"60%"}}>Toplam Oyun</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.props.profile.numberOfGames}</div><br/>
-                                        <div style={{display:"inline-block",color:"gray",width:"60%"}}>Seviye</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.props.profile.rating}</div><br/>
+                                        <div style={{display:"inline-block",color:"gray",width:"60%"}}>Toplam Oyun</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.profile.numberOfGames}</div><br/>
+                                        <div style={{display:"inline-block",color:"gray",width:"60%"}}>Seviye</div><div style={{fontWeight:490,display:"inline-block"}}>: {this.state.profile.rating}</div><br/>
                                               <br/>
                                               <div style={{textAlign:"center"}}><IonButton onClick={e=>this.setState({showStats : false})} size="small" fill="outline" color="primary">Kapat</IonButton></div>                                        
                                         </div>
