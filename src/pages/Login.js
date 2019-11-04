@@ -46,7 +46,7 @@ export class Login extends Component {
                 clientId="152418384992-7mk4vo6o39j3q14uf4d1p8jab73qdekf.apps.googleusercontent.com"
             buttonText="Login"
             onSuccess={this.response}
-            onFailure={this.failure}  cookiePolicy={'single_host_origin'}></GoogleLogin>                
+            onFailure={this.failure}  ></GoogleLogin>                
             </ion-col>
             <ion-col size="1"/>
             </ion-row>

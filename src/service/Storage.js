@@ -34,7 +34,7 @@ export class Storage{
     }
     getGames(){
         this.gameList = JSON.parse(localStorage.getItem("gameList"));
-        return this.gameList;
+        return (this.gameList === null ? [] : this.gameList);
     }
 }
 

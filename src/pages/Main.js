@@ -22,7 +22,8 @@ export class Main extends Component {
         console.log("MAIN VIEW CREATED");
         this.storage = new Storage();
         this.gameList = this.storage.getGames();
-        this.gameList.splice(3,this.gameList.length - 4)
+        if (this.gameList != null && this.gameList.length > 4)
+          this.gameList.splice(3,this.gameList.length - 4)
         this.openGameView = this.openGameView.bind(this);
         this.openHomeView = this.openHomeView.bind(this);
         this.state = {
@@ -37,6 +38,7 @@ export class Main extends Component {
 
     openHomeView(){
       this.gameList = this.storage.getGames();
+      if (this.gameList != null && this.gameList.length > 4)
       this.gameList.splice(3,this.gameList.length - 4)
 
       this.setState({
@@ -77,7 +79,7 @@ export class Main extends Component {
           };        
         for(const[i,g] of this.state.gameList.entries()){
             gameCards.push(
-              <ion-card button key={i} onClick={()=>this.openGameView(i)}>
+              <ion-card color="light" button key={i} onClick={()=>this.openGameView(i)}>
               <ion-card-header>
                 <ion-card-subtitle><span style={{fontSize:"1.4em"}}>{new Date(g.startDate).toLocaleDateString('tr-TR', options)}</span></ion-card-subtitle>
               </ion-card-header>
@@ -147,12 +149,12 @@ export class Main extends Component {
                 </ion-row>
               </ion-grid>
               
-              <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+              <ion-fab size="large" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="light"  onClick={()=>this.setState({pageIndex:1})}>
       <ion-icon src="assets/mining.svg"></ion-icon>
     </ion-fab-button>
   </ion-fab>              
-            </IonContent>               
+            </IonContent>        
             );
     }
 

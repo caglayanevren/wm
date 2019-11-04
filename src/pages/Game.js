@@ -11,7 +11,7 @@ import Score from './score'
 import RotateBtn from './rotatebtn'
 import Cards from './cards'
 import {podium} from 'ionicons/icons'
-import {menu} from 'ionicons/icons'
+
 import {power} from 'ionicons/icons'
 import {home} from 'ionicons/icons'
 import { IonPopover, IonTitle, IonButton,IonContent, IonIcon, IonItem, IonToolbar,IonButtons, IonHeader,IonAlert } from '@ionic/react';
@@ -308,7 +308,6 @@ export class Game extends Component {
                     score += lx * Config.scores[this.board[t.l][t.c].val];
                 } 
                 score *= wx;
-                console.log("WORD : " + word + "  score " + score);
                 for(var i = 0; i < this.touchList.length; ++i){
                     this.board[this.touchList[i].l][this.touchList[i].c].touched = "";
                 }
@@ -328,14 +327,13 @@ export class Game extends Component {
                         board : this.board
                     }) ;                    
                 } 
-                axios({method: 'post',url: 'http://localhost:8080/lookup',data: {word : word},timeout:3000
-                //axios({method: 'post',url: 'http://wordminer-env.x7krybgsc3.us-west-2.elasticbeanstalk.com/lookup',data: {word : word},timeout:3000
+                //axios({method: 'post',url: 'http://localhost:8080/lookup',data: {word : word},timeout:3000
+                axios({method: 'post',url: 'http://harfiyat.azurewebsites.net/lookup',data: {word : word},timeout:3000
                 }).then(obj => {
                     if (this.status === 1)
                         this.status = 0;
                     if (obj.data){    
                         let outList = [];
-                        console.log(obj.data) 
 
                         //if (this.wordList[0].score === 0){
                         //    this.wordList.splice(0,1);
@@ -364,19 +362,19 @@ export class Game extends Component {
                                 if (t.c > 4){
                                     rule =  '@keyframes bonusOut{\
                                         0%  {z-index:100;visibility:visible;left :' + ((t.c) * this.state.size) + 'px; top :' + ((t.l) * this.state.size )  + 'px; opacity:0.9 }\
-                                        40%  {transform:rotateY(0deg);left :' + ((t.c - 1) * this.state.size - 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
-                                        60%  {transform:rotateY(360deg);left :' + ((t.c - 1) * this.state.size - 14) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
-                                        80% {transform:rotateY(0deg);left :' + ((t.c - 1) * this.state.size - 18) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
-                                        100% {transform:rotateY(360deg);left :' + ((t.c - 1) * this.state.size - 22) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
+                                        40%  {transform:rotateY(0deg);left :' + ((t.c) * this.state.size - 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
+                                        60%  {transform:rotateY(360deg);left :' + ((t.c) * this.state.size - 12) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
+                                        80% {transform:rotateY(0deg);left :' + ((t.c) * this.state.size - 14) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
+                                        100% {transform:rotateY(360deg);left :' + ((t.c) * this.state.size - 16) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
                                     }'
                                 }
                                 else{
                                     rule =  '@keyframes bonusOut{\
                                         0%  {z-index:100;visibility:visible;left :' + ((t.c) * this.state.size) + 'px; top :' + ((t.l) * this.state.size )  + 'px; opacity:0.9 }\
-                                        40%  {transform:rotateY(0deg);left :' + ((t.c + 1) * this.state.size + 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
-                                        60%  {transform:rotateY(360deg);left :' + ((t.c + 1) * this.state.size + 14) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
-                                        80% {transform:rotateY(0deg);left :' + ((t.c + 1) * this.state.size + 18) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
-                                        100% {transform:rotateY(360deg);left :' + ((t.c + 1) * this.state.size + 22) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
+                                        40%  {transform:rotateY(0deg);left :' + ((t.c) * this.state.size + 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
+                                        60%  {transform:rotateY(120deg);left :' + ((t.c) * this.state.size + 12) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
+                                        80% {transform:rotateY(240deg);left :' + ((t.c ) * this.state.size + 14) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
+                                        100% {transform:rotateY(360deg);left :' + ((t.c ) * this.state.size + 16) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
                                     }'
                                 }
                                 document.styleSheets[1].insertRule(rule);
@@ -458,7 +456,6 @@ export class Game extends Component {
 
     onMouseMove(e,l,c){
         this.resize();
-        console.log(" line : " + l + "  col : " + c);
         if (this.status !== 0){
            
             return;
@@ -621,7 +618,7 @@ export class Game extends Component {
         }
 
         return (
-                <IonContent scrollY={false} >
+                <IonContent scrollY={false} style={{background : "url('/assets/paper.jpg')"}} className="something">
 <IonHeader>
       <IonToolbar color="gold">
         <IonButtons slot="secondary">
@@ -812,7 +809,6 @@ export class Game extends Component {
     onOutAnimationEnd(){
 
         
-        console.log("OUt animation ended....");
         for(const[,o] of this.state.outList.entries()){
             document.styleSheets[0].deleteRule(0);
             document.styleSheets[0].deleteRule(0);
@@ -823,7 +819,6 @@ export class Game extends Component {
     onBonusAnimationEnd(){
         if (this.state.bonus.length > 0){
             
-            console.log(document.styleSheets[1])
             document.styleSheets[1].deleteRule(0);
         }
         this.setState({bonus:[]});
