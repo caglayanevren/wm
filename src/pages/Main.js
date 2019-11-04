@@ -39,11 +39,13 @@ export class Main extends Component {
     openHomeView(){
       this.gameList = this.storage.getGames();
       if (this.gameList != null && this.gameList.length > 4)
-      this.gameList.splice(3,this.gameList.length - 4)
+        this.gameList.splice(3,this.gameList.length - 4)
 
       this.setState({
         pageIndex:0,
-        gameList : this.gameList
+        gameList : this.gameList,
+
+        profile : this.storage.getProfile()
       });
     }
 
@@ -51,8 +53,7 @@ export class Main extends Component {
 
       this.setState({
         pageIndex : 2,
-        selectedGame : this.gameList[i],
-        profile : this.props.profile
+        selectedGame : this.gameList[i]
       })
     }
     render(){

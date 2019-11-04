@@ -41,7 +41,7 @@ export class GameView extends Component {
     storage = new Storage();
     constructor(props) {
         super(props);
-        console.log(JSON.stringify(this.props.state))
+
         this.status = 2;
         this.props.state.wordList.shift();
         this.state = {

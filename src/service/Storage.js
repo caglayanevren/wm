@@ -36,6 +36,14 @@ export class Storage{
         this.gameList = JSON.parse(localStorage.getItem("gameList"));
         return (this.gameList === null ? [] : this.gameList);
     }
+    getProfile(){
+        let profile = localStorage.getItem("profile");
+        if (profile != null){
+            return JSON.parse(profile);
+        }
+        return null;
+    }
+
 }
 
 export default Storage;

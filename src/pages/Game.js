@@ -825,7 +825,7 @@ export class Game extends Component {
     }
     
     calculateRating(){
-        let profile = JSON.parse(localStorage.getItem("profile"));
+        let profile = this.storage.getProfile();
         let rating = profile.rating;
         let num = profile.numberOfGames;
         if (num === 0){
