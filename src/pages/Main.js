@@ -77,8 +77,14 @@ export class Main extends Component {
         const slideOpts = {
             initialSlide: 1,
             speed: 400,
-          };        
-        for(const[i,g] of this.state.gameList.entries()){
+          };   
+        if (this.state.gameList.length === 0){
+
+          gameCards.push(<div style={{fontFamily:"Roboto",color:"gray",height:"100%",width:"100%",textAlign:"center",fontSize:"2em"}}>
+            <div style={{margin:"50% auto",width:"90%"}}><ion-button size="large" expand="block" color="light"><ion-icon slot="start" src="/assets/mining.svg"></ion-icon>Oynamaya Başlayın</ion-button></div></div>);
+        }     
+        else 
+          for(const[i,g] of this.state.gameList.entries()){
             gameCards.push(
               <ion-card color="light" button key={i} onClick={()=>this.openGameView(i)}>
               <ion-card-header>
