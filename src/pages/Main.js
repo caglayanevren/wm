@@ -22,7 +22,7 @@ export class Main extends Component {
         console.log("MAIN VIEW CREATED");
         this.storage = new Storage();
         this.gameList = this.storage.getGames();
-        this.gameList.splice(5,this.gameList.length - 6)
+        this.gameList.splice(3,this.gameList.length - 4)
         this.openGameView = this.openGameView.bind(this);
         this.openHomeView = this.openHomeView.bind(this);
         this.state = {
@@ -37,7 +37,7 @@ export class Main extends Component {
 
     openHomeView(){
       this.gameList = this.storage.getGames();
-      this.gameList.splice(5,this.gameList.length - 6)
+      this.gameList.splice(3,this.gameList.length - 4)
 
       this.setState({
         pageIndex:0,
@@ -148,8 +148,8 @@ export class Main extends Component {
               </ion-grid>
               
               <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button>
-      <IonIcon icon={add} onclick={()=>this.setState({pageIndex:1})}></IonIcon>
+    <ion-fab-button color="light"  onClick={()=>this.setState({pageIndex:1})}>
+      <ion-icon src="assets/mining.svg"></ion-icon>
     </ion-fab-button>
   </ion-fab>              
             </IonContent>               
