@@ -16,6 +16,7 @@ export class Dictionary{
         // Find the middle index 
         let mid = Math.floor((start + end) / 2);
         let val = arr[mid].id;
+        val = val.toLocaleLowerCase("tr")
         // Compare mid with given key x 
         
         let compare = word.localeCompare(val,"tr");

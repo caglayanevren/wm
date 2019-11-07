@@ -62,7 +62,7 @@ export class Main extends Component {
       this.getAll().then(dict=>{
         if (dict.length === 0){
           this.setState({showLoading:true})
-          axios({method: 'post',url: 'http://localhost:8080/dict'}).then(obj => { this.setState({showLoading:false});add({id:0,list:obj.data}); this.dictionary.entries = obj.data}).catch((e)=>{ this.setState({showLoading:false})})
+          axios({method: 'post',url: 'http://wordminer-env.x7krybgsc3.us-west-2.elasticbeanstalk.com/dict',timeout:60000}).then(obj => { add({id:0,list:obj.data}).then(()=>this.setState({showLoading:false})); this.dictionary.entries = obj.data}).catch((e)=>{ this.setState({showLoading:false})})
         }
         else{
             this.dictionary.entries = dict[0].list;

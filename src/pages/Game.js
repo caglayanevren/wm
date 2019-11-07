@@ -412,7 +412,7 @@ export class Game extends Component {
                     return;
                 }
                 //axios({method: 'post',url: 'http://localhost:8080/lookup',data: {word : word},timeout:3000
-                axios({method: 'post',url: 'http://harfiyat.azurewebsites.net/lookup',data: {word : word},timeout:3000
+                axios({method: 'post',url: 'http://wordminer-env.x7krybgsc3.us-west-2.elasticbeanstalk.com/lookup',data: {word : word},timeout:3000
                 }).then(obj => {
                     if (this.status === 1)
                         this.status = 0;
