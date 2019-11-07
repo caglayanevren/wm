@@ -52,10 +52,10 @@ export class Cards extends Component {
         
         <table className="scorecard__stats">
       <tbody style={{textAlign:"center"}}><tr>
-        <th style={{color:"#222222",fontWeight:500,fontSize:"0.8em"}}>{card.score} Puan</th>
+        <th style={{color:"#222222",fontWeight:500,fontSize:"0.7em"}}>{card.score} Puan</th>
         </tr>
       <tr>
-      <td style={{fontWeight:500,fontSize:".8em"}}>{card.desc}</td>
+      <td style={{fontWeight:470,fontSize:".7em"}}>{card.desc}</td>
       </tr>
         </tbody></table>    
         </figcaption>    

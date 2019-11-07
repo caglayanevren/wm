@@ -1,10 +1,11 @@
 export class Storage{
     gameList = [];
+
     constructor(){
         this.gameList = JSON.parse(localStorage.getItem("gameList"));
         if (this.gameList === null){
             this.gameList = [];
-        }
+        }        
     }
     saveGameState(state){
         var i = 0;
@@ -43,6 +44,11 @@ export class Storage{
         }
         return null;
     }
+    saveDict(dict){
+        localStorage.setItem("dict",JSON.stringify(dict));
+    }
+
+
 
 }
 

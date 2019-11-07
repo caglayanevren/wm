@@ -16,6 +16,7 @@ import {power} from 'ionicons/icons'
 import {home} from 'ionicons/icons'
 import { IonPopover, IonTitle, IonButton,IonContent, IonIcon, IonItem, IonToolbar,IonButtons, IonHeader,IonAlert } from '@ionic/react';
 import Storage from '../service/Storage';
+
 //import {Button} from 'primereact/button';
 
 
@@ -71,7 +72,7 @@ export class Game extends Component {
             showNetworkError : false,
             highestScore : {w:".",score:0},
             longest : {w:".",score:0},
-            countdown : 300 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 ),
+            countdown : 180 - Math.ceil( ((new Date()).getTime() - this.startDate) / 1000 ),
             bonus:[]
         };
         
@@ -282,7 +283,73 @@ export class Game extends Component {
         
     }
 
-   
+    process(word,desc,score,bonus){
+        let outList = [];
+
+        //if (this.wordList[0].score === 0){
+        //    this.wordList.splice(0,1);
+        //}
+        this.wordList.push({word:word,desc:desc,score : score});
+
+        for(const [ind,t] of this.touchList.entries()){
+            let rule =  '@keyframes out' + t.l + '' + t.c + '{\
+                0%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + (t.l * this.state.size + 1)  + 'px;}\
+                25%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 1) * this.state.size + 1)  + 'px; opacity:0.6;}\
+                50%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 2) * this.state.size + 2)  + 'px; opacity:0.4;}\
+                100% {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 4) * this.state.size + 1) + 'px;opacity:0}\
+            }';
+            outList.push({val:this.board[t.l][t.c].val,anim:"out" + t.l + "" + t.c,l:t.l,c:t.c})
+                   
+            document.styleSheets[0].insertRule(rule);                            
+
+            rule = "." + "out" + t.l + "" + t.c + "{\
+                animation-name : out" + t.l + t.c + ";\
+                animation-duration : 1s;\
+                animation-timing-function : linear;\
+                animation-fill-mode : forwards;\
+            }";
+            document.styleSheets[0].insertRule(rule);
+            if (ind === 0 && bonus.length > 0){
+                if (t.c > 4){
+                    rule =  '@keyframes bonusOut{\
+                        0%  {z-index:500;visibility:visible;left :' + ((t.c) * this.state.size) + 'px; top :' + ((t.l) * this.state.size )  + 'px; opacity:0.9 }\
+                        40%  {transform:rotateY(0deg);left :' + ((t.c) * this.state.size - 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
+                        60%  {transform:rotateY(360deg);left :' + ((t.c) * this.state.size - 12) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
+                        80% {transform:rotateY(0deg);left :' + ((t.c) * this.state.size - 14) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
+                        100% {transform:rotateY(360deg);left :' + ((t.c) * this.state.size - 16) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
+                    }'
+                }
+                else{
+                    rule =  '@keyframes bonusOut{\
+                        0%  {z-index:100;visibility:visible;left :' + ((t.c) * this.state.size) + 'px; top :' + ((t.l) * this.state.size )  + 'px; opacity:0.9 }\
+                        40%  {transform:rotateY(0deg);left :' + ((t.c) * this.state.size + 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
+                        60%  {transform:rotateY(120deg);left :' + ((t.c) * this.state.size + 12) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
+                        80% {transform:rotateY(240deg);left :' + ((t.c ) * this.state.size + 14) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
+                        100% {transform:rotateY(360deg);left :' + ((t.c ) * this.state.size + 16) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
+                    }'
+                }
+                document.styleSheets[1].insertRule(rule);
+            }
+
+           
+
+            this.board[t.l][t.c] = null;
+                                    
+        }
+        this.setState({outList:outList,bonus:bonus});
+        this.score += score;
+        if (score > this.highestScore.score || (score === this.highestScore.score && word.length > this.highestScore.w.length)){
+            this.highestScore = {w:word,score:score};
+        }
+        if (word.length > this.longest.w.length || (word.length === this.longest.w.length && score > this.longest.score)){
+            this.longest = {w:word,score:score};
+        }
+        this.clearedLetterCount += this.touchList.length;
+        this.touchList = [];
+        this.updateScore();
+
+    }
+
     onTouchEnd(){
         let  bonus = [];
         if (this.animationCount === 0){
@@ -312,7 +379,7 @@ export class Game extends Component {
                     this.board[this.touchList[i].l][this.touchList[i].c].touched = "";
                 }
                 
-                if (word.length < 2){
+                if (word.length < 2 || this.status == 2){
                     
                     this.setState({
                         board : this.board,
@@ -327,76 +394,30 @@ export class Game extends Component {
                         board : this.board
                     }) ;                    
                 } 
+                console.log("DICT  " + this.props.dictionary)
+                if (!this.props.dictionary.isEmpty()){
+                    let result = this.props.dictionary.lookup(word);
+                    console.log(JSON.stringify(result));
+                    if (this.status === 1)
+                    this.status = 0;
+
+                    if(result){
+                        this.process(word,result,score,bonus);
+                        
+                    }
+                    else{
+                        this.touchList = [];
+                        this.setState({currentWord:""})
+                    }
+                    return;
+                }
                 //axios({method: 'post',url: 'http://localhost:8080/lookup',data: {word : word},timeout:3000
                 axios({method: 'post',url: 'http://harfiyat.azurewebsites.net/lookup',data: {word : word},timeout:3000
                 }).then(obj => {
                     if (this.status === 1)
                         this.status = 0;
                     if (obj.data){    
-                        let outList = [];
-
-                        //if (this.wordList[0].score === 0){
-                        //    this.wordList.splice(0,1);
-                        //}
-                        this.wordList.push({word:obj.data.id,desc:obj.data.desc,score : score});
-      
-                        for(const [ind,t] of this.touchList.entries()){
-                            let rule =  '@keyframes out' + t.l + '' + t.c + '{\
-                                0%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + (t.l * this.state.size + 1)  + 'px;}\
-                                25%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 1) * this.state.size + 1)  + 'px; opacity:0.6;}\
-                                50%  {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 2) * this.state.size + 2)  + 'px; opacity:0.4;}\
-                                100% {z-index:100;left :' + (t.c * this.state.size + 1) + 'px; top :' + ((t.l + 4) * this.state.size + 1) + 'px;opacity:0}\
-                            }';
-                            outList.push({val:this.board[t.l][t.c].val,anim:"out" + t.l + "" + t.c,l:t.l,c:t.c})
-                                   
-                            document.styleSheets[0].insertRule(rule);                            
-        
-                            rule = "." + "out" + t.l + "" + t.c + "{\
-                                animation-name : out" + t.l + t.c + ";\
-                                animation-duration : 1s;\
-                                animation-timing-function : linear;\
-                                animation-fill-mode : forwards;\
-                            }";
-                            document.styleSheets[0].insertRule(rule);
-                            if (ind === 0 && bonus.length > 0){
-                                if (t.c > 4){
-                                    rule =  '@keyframes bonusOut{\
-                                        0%  {z-index:100;visibility:visible;left :' + ((t.c) * this.state.size) + 'px; top :' + ((t.l) * this.state.size )  + 'px; opacity:0.9 }\
-                                        40%  {transform:rotateY(0deg);left :' + ((t.c) * this.state.size - 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
-                                        60%  {transform:rotateY(360deg);left :' + ((t.c) * this.state.size - 12) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
-                                        80% {transform:rotateY(0deg);left :' + ((t.c) * this.state.size - 14) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
-                                        100% {transform:rotateY(360deg);left :' + ((t.c) * this.state.size - 16) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
-                                    }'
-                                }
-                                else{
-                                    rule =  '@keyframes bonusOut{\
-                                        0%  {z-index:100;visibility:visible;left :' + ((t.c) * this.state.size) + 'px; top :' + ((t.l) * this.state.size )  + 'px; opacity:0.9 }\
-                                        40%  {transform:rotateY(0deg);left :' + ((t.c) * this.state.size + 10) + 'px; top :' + ((t.l - 1) * this.state.size)  + 'px; opacity:1;}\
-                                        60%  {transform:rotateY(120deg);left :' + ((t.c) * this.state.size + 12) + 'px; top :' + ((t.l) * this.state.size)  + 'px; opacity:0.95;}\
-                                        80% {transform:rotateY(240deg);left :' + ((t.c ) * this.state.size + 14) + 'px; top :' + ((t.l + 1) * this.state.size) + 'px;opacity:0.8}\
-                                        100% {transform:rotateY(360deg);left :' + ((t.c ) * this.state.size + 16) + 'px; top :' + ((t.l + 2) * this.state.size) + 'px;opacity:0.4}\
-                                    }'
-                                }
-                                document.styleSheets[1].insertRule(rule);
-                            }
-
-                           
-
-                            this.board[t.l][t.c] = null;
-                                                    
-                        }
-                        this.setState({outList:outList,bonus:bonus});
-                        this.score += score;
-                        if (score > this.highestScore.score || (score === this.highestScore.score && obj.data.id.length > this.highestScore.w.length)){
-                            this.highestScore = {w:obj.data.id,score:score};
-                        }
-                        if (obj.data.id.length > this.longest.w.length || (obj.data.id.length === this.longest.w.length && score > this.longest.score)){
-                            this.longest = {w:obj.data.id,score:score};
-                        }
-                        this.clearedLetterCount += this.touchList.length;
-                        this.touchList = [];
-                        this.updateScore();
-
+                        this.process(obj.data.id,obj.data.desc,score,bonus);
                     }
                     else{
                         this.touchList = [];
@@ -414,11 +435,8 @@ export class Game extends Component {
                 })                
 
             }
-             //setTimeout(()=>{console.log("Init gravity...");this.gravity();},1);
-            //setTimeout(()=>{this.setValues();},800);
-
-  
         }
+        
     }
 
     onTouchStart(e,l,c) {

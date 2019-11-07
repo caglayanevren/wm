@@ -36,7 +36,7 @@ export class Login extends Component {
         let btn =
         <IonContent scrollY={false}>
 
-            <ion-grid style={{width:"100%",marginTop:"55%"}}>
+            <ion-grid style={{width:"100%",margin:"30% auto"}}>
             <ion-row>
             <ion-col size="1"/>
             <ion-col size="10">

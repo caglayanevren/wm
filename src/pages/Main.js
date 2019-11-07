@@ -6,20 +6,20 @@ import Storage from '../service/Storage';
 import { GoogleLogin } from 'react-google-login';
 import Game from './Game';
 import GameView from './GameView';
+import Config from './Config'
 
 import './Main.scss';
 import {stats} from 'ionicons/icons'
-import {add} from 'ionicons/icons'
 
-
+import Dictionary from '../service/Dictionary';
 
 export class Main extends Component {
     gameList = []; 
     selectedGame = null;   
     storage = null;
+    dictionary = null;
     constructor(props) {
-        super(props);
-        console.log("MAIN VIEW CREATED");
+        super(props);      
         this.storage = new Storage();
         this.gameList = this.storage.getGames();
         if (this.gameList != null && this.gameList.length > 4)
@@ -33,6 +33,8 @@ export class Main extends Component {
           gameList : this.gameList,
           profile : this.props.profile
       }
+      this.dictionary = new Dictionary();
+      console.log(this.dictionary.entries)
 
     }
 
@@ -48,9 +50,28 @@ export class Main extends Component {
         profile : this.storage.getProfile()
       });
     }
-
+    openGame(){
+      let size = Math.floor(window.innerWidth / 10);
+      if (window.innerWidth <= 400){
+        size = 35;
+      }
+      else if (window.innerWidth >= 600){
+        size = 60;
+      }
+      Config.size = size;
+      this.setState({
+        pageIndex : 1
+      })
+    }
     openGameView(i){
-
+      let size = Math.floor(window.innerWidth / 10);
+      if (window.innerWidth <= 400){
+        size = 35;
+      }
+      else if (window.innerWidth >= 600){
+        size = 60;
+      }
+      Config.size = size;
       this.setState({
         pageIndex : 2,
         selectedGame : this.gameList[i]
@@ -65,7 +86,7 @@ export class Main extends Component {
       }
     }
     renderGame(){
-      return(<IonContent scrollY={false} fullscreen={true}><Game back={this.openHomeView}/></IonContent>)
+      return(<IonContent scrollY={false} fullscreen={true}><Game back={this.openHomeView} dictionary={this.dictionary}/></IonContent>)
     }
     renderGameView(){
       return(<IonContent scrollY={false} fullscreen={true}><GameView back={this.openHomeView} state={this.state.selectedGame}/></IonContent>)
@@ -74,14 +95,17 @@ export class Main extends Component {
         let gameCards = [];
         let classes =["clash-card__unit-stats--goblin","clash-card__unit-stats--barbarian","clash-card__unit-stats--giant","clash-card__unit-stats--archer","clash-card__unit-stats--wizard"];
         let options = {  year: 'numeric', month: 'long', day: 'numeric',hour:'numeric',minute:'numeric' };
-        const slideOpts = {
-            initialSlide: 1,
-            speed: 400,
-          };   
+        let fab = <ion-fab size="large" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="light"  onClick={()=>this.openGame()}>
+          <ion-icon src="assets/mining.svg"></ion-icon>
+        </ion-fab-button>
+      </ion-fab> ;
+       
         if (this.state.gameList.length === 0){
 
-          gameCards.push(<div style={{fontFamily:"Roboto",color:"gray",height:"100%",width:"100%",textAlign:"center",fontSize:"2em"}}>
-            <div style={{margin:"50% auto",width:"90%"}}><ion-button size="large" expand="block" color="light"><ion-icon slot="start" src="/assets/mining.svg"></ion-icon>Oynamaya Başlayın</ion-button></div></div>);
+          fab = null;  
+          gameCards.push(<div key={0} style={{fontFamily:"Roboto",color:"gray",height:"100%",width:"100%",textAlign:"center",fontSize:"2em"}}>
+            <div style={{margin:"30% auto",width:"90%"}}><ion-button onClick={()=>this.openGame()} size="large" expand="block" color="light"><ion-icon slot="start" src="/assets/mining.svg"></ion-icon>Oynamaya Başlayın</ion-button></div></div>);
         }     
         else 
           for(const[i,g] of this.state.gameList.entries()){
@@ -112,7 +136,7 @@ export class Main extends Component {
             )
         }
 
-        return(<IonContent scrollY={false} fullscreen={true}>
+        return(<IonContent scrollY={true} fullscreen={true}>
           <IonPopover isOpen={this.state.showStats} onDidDismiss={e => this.setState({showStats:false})}>
                                           <IonItem>
                                               <IonIcon icon={stats} slot="start" />
@@ -155,12 +179,8 @@ export class Main extends Component {
                   
                 </ion-row>
               </ion-grid>
-              
-              <ion-fab size="large" vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="light"  onClick={()=>this.setState({pageIndex:1})}>
-      <ion-icon src="assets/mining.svg"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>              
+              {fab}              
+                      
             </IonContent>        
             );
     }

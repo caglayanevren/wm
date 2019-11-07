@@ -70,7 +70,7 @@ export class GameView extends Component {
     coordinate = null;
     componentDidMount(){
         
-        window.addEventListener("resize", this.resize.bind(this));
+
         
         window.addEventListener('selectstart', function(e){ e.preventDefault(); });
         this.resize();
