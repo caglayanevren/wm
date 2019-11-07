@@ -1,7 +1,7 @@
 import React, {Component,} from 'react';
 
 
-import { IonAvatar,IonList,IonLabel,IonItemOption,IonItemOptions,IonItemSliding,IonPopover,IonTitle,IonButton,IonIcon, IonContent,IonItem,IonButtons, IonHeader,IonToolbar} from '@ionic/react';
+import { IonAvatar,IonLoading,IonPopover,IonTitle,IonButton,IonIcon, IonContent,IonItem,IonButtons, IonHeader,IonToolbar} from '@ionic/react';
 import Storage from '../service/Storage';
 import { GoogleLogin } from 'react-google-login';
 import Game from './Game';
@@ -11,7 +11,11 @@ import Config from './Config'
 import './Main.scss';
 import {stats} from 'ionicons/icons'
 
+import axios from 'axios';
+import { initDB } from 'react-indexed-db';
+import { useIndexedDB } from 'react-indexed-db';
 import Dictionary from '../service/Dictionary';
+
 
 export class Main extends Component {
     gameList = []; 
@@ -27,6 +31,7 @@ export class Main extends Component {
         this.openGameView = this.openGameView.bind(this);
         this.openHomeView = this.openHomeView.bind(this);
         this.state = {
+          showLoading : false,
           showStats : false,
           pageIndex : 0,
           selectedGame : null,
@@ -34,7 +39,36 @@ export class Main extends Component {
           profile : this.props.profile
       }
       this.dictionary = new Dictionary();
-      console.log(this.dictionary.entries)
+
+
+
+      let dbConfig = {
+        name: 'DB',
+        version: 1,
+        objectStoresMeta: [
+          {
+            store: 'dictionary',
+            storeConfig: { keyPath: 'id', autoIncrement: false },
+            storeSchema: [
+              { name: 'list', keypath: 'list', options: { unique: false } },
+            ]
+          }
+        ]
+      };      
+      initDB(dbConfig);
+      const { add } = useIndexedDB('dictionary');
+      const { getAll } = useIndexedDB('dictionary');
+      this.getAll = getAll.bind(this);
+      this.getAll().then(dict=>{
+        if (dict.length === 0){
+          this.setState({showLoading:true})
+          axios({method: 'post',url: 'http://localhost:8080/dict'}).then(obj => { this.setState({showLoading:false});add({id:0,list:obj.data}); this.dictionary.entries = obj.data}).catch((e)=>{ this.setState({showLoading:false})})
+        }
+        else{
+            this.dictionary.entries = dict[0].list;
+        }
+      })       
+  
 
     }
 
@@ -180,7 +214,12 @@ export class Main extends Component {
                 </ion-row>
               </ion-grid>
               {fab}              
-                      
+              <IonLoading
+                isOpen={this.state.showLoading}
+                onDidDismiss={() => this.setState({showLoading:false})}
+                message={'Sözlük güncelleniyor...'}
+                duration={5000}
+              />     
             </IonContent>        
             );
     }
