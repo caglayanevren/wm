@@ -1,12 +1,30 @@
 export class Storage{
     gameList = [];
-
+    
     constructor(){
+        let version = "0";
         this.gameList = JSON.parse(localStorage.getItem("gameList"));
         if (this.gameList === null){
             this.gameList = [];
-        }        
+        } 
+        version = localStorage.getItem("version");
+        if (version === null){
+            version = "0";
+            this.setVersion(version);
+        }       
     }
+
+    getVersion(){
+        let version = localStorage.getItem("version");
+        if (version === null){
+            version = "0";
+        }  
+        return version             
+    }
+    setVersion(version){
+        localStorage.setItem("version",version);
+    }
+
     saveGameState(state){
         var i = 0;
 

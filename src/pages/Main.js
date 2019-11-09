@@ -37,7 +37,8 @@ export class Main extends Component {
           selectedGame : null,
           gameList : this.gameList,
           profile : this.props.profile
-      }
+        }
+      
       this.dictionary = new Dictionary();
 
 
@@ -54,7 +55,7 @@ export class Main extends Component {
             ]
           }
         ]
-      };      
+      };   
       initDB(dbConfig);
       const { add } = useIndexedDB('dictionary');
       const { getAll } = useIndexedDB('dictionary');
@@ -62,15 +63,27 @@ export class Main extends Component {
       this.getAll().then(dict=>{
         if (dict.length === 0){
           this.setState({showLoading:true})
-          axios({method: 'post',url: 'http://wordminer-env.x7krybgsc3.us-west-2.elasticbeanstalk.com/dict',timeout:60000}).then(obj => { add({id:0,list:obj.data}).then(()=>this.setState({showLoading:false})); this.dictionary.entries = obj.data}).catch((e)=>{ this.setState({showLoading:false})})
+          axios({method: 'post',url: Config.url + '/dict',timeout:60000}).then(obj => { add({id:0,list:obj.data}).then(()=>this.setState({showLoading:false})); this.dictionary.entries = obj.data}).catch((e)=>{ this.setState({showLoading:false})})
         }
         else{
+          this.setState({showLoading:true})
+          axios({method: 'post',url: Config.url + '/version',timeout:30000}).then(obj => { 
+          this.setState({showLoading:false});
+          if (Number(this.storage.getVersion() < obj.data)){
+            this.storage.setVersion(obj.data);
+            this.setState({showLoading:true});
+            axios({method: 'post',url: Config.url + '/dict',timeout:60000}).then(obj => { add({id:0,list:obj.data}).then(()=>this.setState({showLoading:false})); this.dictionary.entries = obj.data}).catch((e)=>{ this.setState({showLoading:false})})
+            
+          }
+          else{
             this.dictionary.entries = dict[0].list;
-        }
-      })       
-  
-
+          }
+          })       
+        }                      
+      })
+      
     }
+    
 
     openHomeView(){
       this.gameList = this.storage.getGames();
@@ -218,7 +231,6 @@ export class Main extends Component {
                 isOpen={this.state.showLoading}
                 onDidDismiss={() => this.setState({showLoading:false})}
                 message={'Sözlük güncelleniyor...'}
-                duration={5000}
               />     
             </IonContent>        
             );
